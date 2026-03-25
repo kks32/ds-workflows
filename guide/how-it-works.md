@@ -18,7 +18,7 @@ Everything starts at the [DesignSafe web portal](https://www.designsafe-ci.org/r
 
 The portal's submission forms look interactive, but jobs submitted to HPC systems are batch jobs. The form simplifies the process of specifying inputs, resources, and parameters, but execution is queued, scheduled, and non-interactive.
 
-Researchers can also bypass the portal entirely and submit jobs programmatically from a Jupyter notebook using [dapi](https://designsafe-ci.github.io/dapi/) or the [Tapis](https://tapis.readthedocs.io/en/latest/) Python client (`tapipy`). This is the preferred approach for automated pipelines, parameter sweeps, and reproducible workflows.
+Researchers can also bypass the portal entirely and submit jobs programmatically from a Jupyter notebook using [dapi](https://designsafe-ci.github.io/dapi/). This is the preferred approach for automated pipelines, parameter sweeps, and reproducible workflows.
 
 ## Compute environments
 
@@ -57,19 +57,7 @@ VMs work well for lightweight, short-running tasks and interactive exploration. 
 
 For production-scale simulations, DesignSafe connects to TACC's high-performance computing systems. These are clusters of interconnected machines (nodes) that support multi-node execution, [MPI](https://www.mpi-forum.org/) parallelism, and large memory allocations. Jobs are submitted through SLURM, the scheduler that manages all compute resources, and wait in a queue until the requested hardware becomes available. Long-running simulations, parallel analyses across many cores, and parametric sweeps with hundreds of runs all belong on HPC.
 
-**Stampede3** is the primary execution system for DesignSafe HPC jobs. It contains several node types with different capabilities.
-
-| Node Type | Cores per Node | Memory | Count | Notes |
-|---|---|---|---|---|
-| ICX (Ice Lake) | 80 | 256 GB DDR4 | 224 | Standard compute nodes |
-| SPR (Sapphire Rapids) | 112 | 128 GB HBM2e | 560 | High memory bandwidth per core, good for memory-bound applications |
-| SKX (Skylake) | 48 | 192 GB DDR4 | 1,060 | Older generation, most numerous |
-| PVC (Ponte Vecchio) | 96 | 512 GB DDR5 | 20 | Intel GPUs with 128 GB HBM2e each, for ML and GPU-accelerated workloads |
-| NVDIMM (Large Memory) | 80 | 4 TB | 3 | For memory-intensive workloads |
-
-The choice of node type affects both performance and cost. A structural analysis that fits in 192 GB runs well on the widely available SKX nodes. A coastal simulation with a dense mesh that benefits from fast memory access may run noticeably faster on SPR nodes with HBM2e. A machine-learning training job belongs on PVC nodes with their GPU accelerators.
-
-[Frontera](https://docs.tacc.utexas.edu/hpc/frontera/) is TACC's leadership-class system with 56-core Intel Cascade Lake nodes and 192 GB of RAM, designed for the largest parallel workloads. [Lonestar6](https://docs.tacc.utexas.edu/hpc/lonestar6/) provides general-purpose HPC with 128-core AMD Milan nodes and 256 GB of RAM, including GPU nodes with NVIDIA A100 accelerators. Both systems are accessible through DesignSafe via Tapis. Consult the linked TACC user guides for queue policies and allocation details.
+The primary systems are [Stampede3](https://docs.tacc.utexas.edu/hpc/stampede3/), [Frontera](https://docs.tacc.utexas.edu/hpc/frontera/), and [Lonestar6](https://docs.tacc.utexas.edu/hpc/lonestar6/). Each offers different node types with varying core counts, memory sizes, and GPU options. [Running HPC Jobs](job-resources.md) covers hardware specs, node types, queues, and resource sizing in detail.
 
 ## Interactive and batch workflows
 

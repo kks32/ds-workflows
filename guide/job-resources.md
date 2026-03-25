@@ -70,6 +70,20 @@ This produces a SLURM script equivalent to
 
 The script is generated automatically. There is no need to write it by hand.
 
+## Stampede3 node types
+
+Stampede3 is the primary execution system for DesignSafe HPC jobs. It contains several node types with different capabilities.
+
+| Node Type | Cores per Node | Memory | Count | Notes |
+|---|---|---|---|---|
+| ICX (Ice Lake) | 80 | 256 GB DDR4 | 224 | Standard compute nodes |
+| SPR (Sapphire Rapids) | 112 | 128 GB HBM2e | 560 | High memory bandwidth per core, good for memory-bound applications |
+| SKX (Skylake) | 48 | 192 GB DDR4 | 1,060 | Older generation, most numerous |
+| PVC (Ponte Vecchio) | 96 | 512 GB DDR5 | 20 | Intel GPUs with 128 GB HBM2e each, for ML and GPU-accelerated workloads |
+| NVDIMM (Large Memory) | 80 | 4 TB | 3 | For memory-intensive workloads |
+
+The choice of node type affects both performance and cost. A structural analysis that fits in 192 GB runs well on the widely available SKX nodes. A coastal simulation with a dense mesh that benefits from fast memory access may run noticeably faster on SPR nodes with HBM2e. A machine-learning training job belongs on PVC nodes with their GPU accelerators.
+
 ## Queues
 
 Every TACC system organizes its compute nodes into queues (also called partitions). A queue groups a set of nodes with similar hardware and enforces limits on how many nodes can be requested, how long a job can run, and how many jobs a single user can have active at once. Different queues also charge different SU rates per node-hour.
