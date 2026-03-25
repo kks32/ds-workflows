@@ -1,9 +1,9 @@
 # Execution Strategies
 *How workloads are mapped onto compute systems*
 
-An execution strategy describes *how* a workload is launched, distributed, coordinated, and completed on a computing system. While the workload defines computational behavior, the execution strategy defines control flow, parallel structure, and resource usage.
+An **execution strategy** describes *how* a workload is launched, distributed, coordinated, and completed on a computing system. While the workload defines computational behavior, the execution strategy defines control flow, parallel structure, and resource usage.
 
-Execution strategies are independent of tools. The same strategy may be implemented using JupyterHub, SLURM scripts, or Tapis apps. What changes is *automation*, not intent.
+Execution strategies are independent of tools. The same strategy may be implemented using [JupyterHub](https://jupyter.org/hub), [SLURM](https://slurm.schedmd.com/) scripts, or [Tapis](https://tapis.io/) apps. What changes is *automation*, not intent.
 
 
 ---
@@ -199,7 +199,7 @@ Choosing the right execution strategy is often more important than choosing the 
 
 ## Looking Ahead
 
-In later chapters, these execution strategies will be mapped to
+These execution strategies map to
 
 * Interactive environments (e.g., JupyterHub)
 * Batch systems (SLURM)
@@ -220,7 +220,7 @@ The goal is not to lock you into a single approach, but to give you a strategy-f
 The table below summarizes structural differences between execution strategies, not tool-specific implementations.
 
 
-| Execution Strategy          | Best-Fit Workloads                                  | Task Coupling | Resource Focus         | Typical Scaling Pattern   | Key Risks                          |
+| Execution Strategy          | Best-Fit Workloads                                  | Task Coupling | Resource Focus         | Typical Scaling Pattern   | Risks                              |
 | --------------------------- | --------------------------------------------------- | ------------- | ---------------------- | ------------------------- | ---------------------------------- |
 | Embarrassingly Parallel | Monte Carlo, parametric sweeps, batch preprocessing | Independent   | CPU, I/O               | Many small jobs           | Scheduler overhead, file explosion |
 | Single Long Batch       | Stepwise simulations, nonlinear solvers             | Sequential    | CPU, memory            | Longer walltime           | Idle cores if poorly parallelized  |

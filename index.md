@@ -1,6 +1,6 @@
-# Computational Workflows on DesignSafe
+# DesignSafe Workflows
 
-This guide covers how to run computational workflows on [DesignSafe](https://designsafe-ci.org) using [dapi](https://designsafe-ci.github.io/dapi/), [Tapis](https://tapis.readthedocs.io/en/latest/), and [TACC](https://www.tacc.utexas.edu/) high-performance computing systems. It walks through the infrastructure, concepts, and application-specific details needed to move from a working script to production-scale HPC computation.
+Run simulations on [TACC](https://www.tacc.utexas.edu/) supercomputers from a [DesignSafe](https://designsafe-ci.org) Jupyter notebook with [dapi](https://designsafe-ci.github.io/dapi/).
 
 ```python
 from dapi import DSClient
@@ -19,13 +19,16 @@ job = ds.jobs.submit(job_request)
 job.monitor()
 ```
 
-For dapi installation, authentication, and API reference, see the [dapi documentation](https://designsafe-ci.github.io/dapi/).
+For installation, authentication, and API reference, see the [dapi documentation](https://designsafe-ci.github.io/dapi/).
 
 ## Contents
 
-- [Your First Job](getting-started/first-job.md)
-- [Workflows](workflows/overview.md) on architecture, design, and execution strategies
-- [HPC](hpc/overview.md) on SLURM job scheduling, scripts, resources, MPI, and PyLauncher
-- [Tapis](tapis/overview.md) on middleware automation, job lifecycle, and app development
-- [DesignSafe Apps](designsafe-apps/overview.md) including OpenSees, OpenFOAM, ADCIRC, and the Agnostic App
-- [Examples](examples/opensees.md) with complete workflows for specific applications
+- [How DesignSafe Runs Your Jobs](guide/how-it-works.md)
+- [Compute Environments](guide/compute-environments.md)
+- [Storage and File Management](guide/storage.md)
+- [Job Resources](guide/job-resources.md)
+- [Debugging Failed Jobs](guide/debugging.md)
+- [Parallel Computing](guide/parallel-computing.md)
+- [Parameter Sweeps](guide/parameter-sweeps.md)
+- [DesignSafe Applications](apps/overview.md)
+- [Advanced Topics](advanced/tapis.md)

@@ -307,7 +307,7 @@ This is where the two-script model really shines.
 
 Tapis v3 supports multi-node MPI workloads in two distinct but equally powerful ways. The difference is not performance or capability, but who launches MPI and how your wrapper script (*tapisjob_app.sh*) is executed.
 
-This section unifies
+The following unifies
 
 * Tapis input staging behavior
 * The *isMpi* and *mpiCmd* flags

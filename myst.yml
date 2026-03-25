@@ -1,59 +1,47 @@
 version: 1
 project:
-  title: Computational Workflows on DesignSafe
+  title: DesignSafe Workflows
   copyright: "2026"
-  github: https://github.com/DesignSafe-CI/computational-workflows
+  github: https://github.com/DesignSafe-CI/workflows
   license: CC-BY-4.0
   toc:
     - file: index.md
-    - title: Getting Started
+    - title: Guide
       children:
-        - file: getting-started/first-job.md
-    - title: Workflows
+        - file: guide/how-it-works.md
+        - file: guide/compute-environments.md
+        - file: guide/storage.md
+        - file: guide/job-resources.md
+        - file: guide/debugging.md
+        - file: guide/parallel-computing.md
+        - file: guide/parameter-sweeps.md
+    - title: Applications
       children:
-        - file: workflows/overview.md
-        - file: workflows/design.md
-        - file: workflows/interactive-vs-batch.md
-        - file: workflows/execution-strategies.md
-    - title: HPC
+        - file: apps/overview.md
+        - file: apps/opensees.md
+        - file: apps/openfoam.md
+        - file: apps/adcirc.md
+        - file: apps/agnostic-app.md
+        - file: apps/agnostic-app-inputs.md
+    - title: Advanced
       children:
-        - file: hpc/overview.md
-        - file: hpc/job-scripts.md
-        - file: hpc/output-files.md
-        - file: hpc/mpi.md
-        - file: hpc/pylauncher.md
-    - title: Tapis
-      children:
-        - file: tapis/overview.md
-        - file: tapis/slurm-and-tapis.md
-        - file: tapis/job-lifecycle.md
-        - file: tapis/apps.md
-        - file: tapis/job-execution-details.md
-        - file: tapis/job-profiling.md
-        - file: tapis/glossary.md
-        - title: App Development
+        - file: advanced/tapis.md
+        - file: advanced/execution-strategies.md
+        - title: Building Apps
           children:
-            - file: tapis/app-development/overview.md
-            - file: tapis/app-development/app-json.md
-            - file: tapis/app-development/wrapper-scripts.md
-    - title: DesignSafe Apps
-      children:
-        - file: designsafe-apps/overview.md
-        - file: designsafe-apps/opensees.md
-        - file: designsafe-apps/openfoam.md
-        - file: designsafe-apps/adcirc.md
-        - file: designsafe-apps/agnostic-app.md
-        - file: designsafe-apps/agnostic-app-inputs.md
-    - title: Examples
-      children:
-        - file: examples/opensees.md
-        - file: examples/mpm.md
-        - file: examples/openfoam.md
-        - file: examples/pylauncher-sweep.md
-        - file: examples/database-queries.md
+            - file: advanced/app-development/overview.md
+            - file: advanced/app-development/app-json.md
+            - file: advanced/app-development/wrapper-scripts.md
+        - file: advanced/glossary.md
   exclude:
     - _build/**
     - node_modules/**
+    - getting-started/**
+    - hpc/**
+    - tapis/**
+    - workflows/**
+    - designsafe-apps/**
+    - examples/**
 site:
   template: book-theme
   options:

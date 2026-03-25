@@ -1,11 +1,11 @@
 # ADCIRC app
 
-ADCIRC is a widely used high-performance model for simulating coastal storm surge, tides, and other hydrodynamic flows. It solves large-scale systems with complex meshes and often requires hundreds or thousands of cores to run efficiently.
+[ADCIRC](https://adcirc.org/) is a widely used high-performance model for simulating coastal storm surge, tides, and other hydrodynamic flows. It solves large-scale systems with complex meshes and often requires hundreds or thousands of cores to run efficiently.
 
-Running ADCIRC on an HPC system like Stampede3 is challenging because
+Running ADCIRC on an HPC system like [Stampede3](https://www.tacc.utexas.edu/systems/stampede3) is challenging because
 
 * you need to prepare multiple specialized input files, including meshes (e.g. *fort.14*), boundary conditions (*fort.15*), forcing data (*fort.61*...), and more,
-* the solver requires careful MPI configuration, meaning you must write precise SLURM batch scripts that set up the parallel environment correctly,
+* the solver requires careful MPI configuration, meaning you must write precise [SLURM](https://slurm.schedmd.com/) batch scripts that set up the parallel environment correctly,
 * you have to manually stage your input files to the scratch space on the compute cluster (for high I/O speed), execute the solver, and then gather the output files, and
 * if you want to run multiple storm scenarios (for example in an ensemble study), you must carefully manage directories, job submissions, and resource allocation to avoid collisions and maximize throughput.
 

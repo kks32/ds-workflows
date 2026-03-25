@@ -219,11 +219,11 @@ The following tables provide details on the different components of an app's sch
 :::{dropdown} All Attributes
 | Attribute | Type | Notes |
 | ---------------- | --------------- | --------------------------------- |
-| appArgs | \[Arg] | Command line arguments passed to the application.<br>* See table below for more information on Arg type entries.<br>* For more information on appArgs see the chapter on Jobs |
-| containerArgs | \[Arg] | Command line arguments passed to the container runtime.<br>* See table below for more information on Arg type entries.<br>* For more information on containerArgs see the chapter on Jobs |
-| schedulerOptions | \[Arg] | Scheduler options passed to the HPC batch scheduler.<br>* See table below for more information on Arg type entries.<br>* For more information on schedulerOptions see the chapter on Jobs |
-| envVariables | \[KeyValuePair] | Environment variables placed into the runtime environment.<br>* Each entry has key (required) and value (optional) as well as other attributes.<br>* See table KeyValuePair Attributes below for more information.<br>* For more information on envVariables see the chapter on Jobs |
-| archiveFilter | ArchiveFilter | Sets of files to include or exclude when archiving.<br>* Default is to include all files in execSystemOutputDir.<br>* See table below for details of ArchiveFilter structure.<br>* For more information on archiveFilter support see the chapter on Jobs |
+| appArgs | \[Arg] | Command line arguments passed to the application.<br>* See table below for more information on Arg type entries.<br>* For more information on appArgs see the Tapis Jobs documentation |
+| containerArgs | \[Arg] | Command line arguments passed to the container runtime.<br>* See table below for more information on Arg type entries.<br>* For more information on containerArgs see the Tapis Jobs documentation |
+| schedulerOptions | \[Arg] | Scheduler options passed to the HPC batch scheduler.<br>* See table below for more information on Arg type entries.<br>* For more information on schedulerOptions see the Tapis Jobs documentation |
+| envVariables | \[KeyValuePair] | Environment variables placed into the runtime environment.<br>* Each entry has key (required) and value (optional) as well as other attributes.<br>* See table KeyValuePair Attributes below for more information.<br>* For more information on envVariables see the Tapis Jobs documentation |
+| archiveFilter | ArchiveFilter | Sets of files to include or exclude when archiving.<br>* Default is to include all files in execSystemOutputDir.<br>* See table below for details of ArchiveFilter structure.<br>* For more information on archiveFilter support see the Tapis Jobs documentation |
 :::
 
 :::{dropdown} appArgs Attributes

@@ -1,13 +1,13 @@
 # Anatomy of a Tapis App
 
-A Tapis v3 App is built from a small set of core components that together define
+A [Tapis](https://tapis.io/) v3 App is built from a small set of core components that together define
 
 * how the app is described and registered
 * how the environment is prepared on the compute node
 * how your scientific workflow is executed
 * how input and output files are staged
 
-This chapter breaks down each component and explains its purpose and place in the runtime sequence.
+Each component and its role in the runtime sequence is explained below.
 
 ---
 
@@ -24,7 +24,7 @@ This is the primary Tapis application definition file. It contains all the top-l
 * Tagging and user interface notes and options
 
 This file is used by Tapis to register the app and to describe how it should be executed on the target HPC system.
-Essentially, *app.json* tells Tapis what this app is, how to run it, and what inputs/outputs to expect.
+In effect, *app.json* tells Tapis what this app is, how to run it, and what inputs/outputs to expect.
 
 
 :::
@@ -38,7 +38,7 @@ It determines
 * The base environment (clean or preloaded)
 * Whether the *module* command exists
 * Default compiler/Python/MPI environment
-* How SLURM launches the job
+* How [SLURM](https://slurm.schedmd.com/) launches the job
 
 The apps in this notebook use
 
@@ -57,7 +57,7 @@ Scheduler Profile vs envVariables
 
 :::{dropdown} 3. ZIP Runtime Package
 
-Each app is delivered as a single ZIP file stored in DesignSafe storage.
+Each app is delivered as a single ZIP file stored in [DesignSafe](https://www.designsafe-ci.org/) storage.
 
 ```
 designsafe.storage.default/.../appname/version/app.zip
@@ -164,7 +164,7 @@ app.json -> job submission -> Tapis validates job -> input staging -> unpack ZIP
 
 On DesignSafe, you have two productive ways to run work on HPC systems.
 
-* Use a public Tapis App. These are pre-configured, maintained templates for common tools (e.g., OpenSees, OpenFOAM). Fastest path to results, minimal setup.
+* Use a public Tapis App. These are pre-configured, maintained templates for common tools (e.g., OpenSees, [OpenFOAM](https://www.openfoam.com/)). Fastest path to results, minimal setup.
 * Author your own Tapis App. A custom template you control (wrapper + app.json, plus optional profile.json) when you need different binaries, launch logic, inputs/parameters, or project-specific defaults.
 
 Start with a public app if your workflow fits its interface. Write a custom app when you need non-standard flags, containers/modules, pre/post steps, or a lab-specific interface you'll reuse.
@@ -239,7 +239,7 @@ When custom apps shine
 
 # Creating a Custom Tapis App
 
-This is a comprehensive, unified guide. It walks you through creating a custom HPC-enabled Tapis app on DesignSafe that uses TACC's environment modules (not Docker), and is launchable through both code (Python + Tapipy) and the DesignSafe GUI.
+This is a comprehensive, unified guide. It walks you through creating a custom HPC-enabled Tapis app on DesignSafe that uses TACC's environment modules (not Docker), and is launchable through both code (Python + [Tapipy](https://github.com/tapis-project/tapipy)) and the DesignSafe GUI.
 
 This guide ties together
 
@@ -249,7 +249,7 @@ This guide ties together
 
 This guide helps you define a reusable, shareable app that
 
-* Runs on TACC HPC systems like Stampede3 or Frontera
+* Runs on TACC HPC systems like [Stampede3](https://www.tacc.utexas.edu/systems/stampede3) or [Frontera](https://www.tacc.utexas.edu/systems/frontera)
 * Uses modules (like *module load python*, *OpenSees*, etc.)
 * Can be launched from either the DesignSafe GUI or Tapipy in Python
 

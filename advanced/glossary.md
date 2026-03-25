@@ -1,6 +1,6 @@
 # Tapis-App Glossary
 
-This glossary is focused on DesignSafe + Stampede3 workflows.
+This glossary is focused on [DesignSafe](https://www.designsafe-ci.org/) + [Stampede3](https://www.tacc.utexas.edu/systems/stampede3) workflows.
 
 * **App**
 
@@ -15,10 +15,10 @@ This glossary is focused on DesignSafe + Stampede3 workflows.
 
 * **Execution System**
 
-    A Tapis-defined HPC or VM environment that runs jobs.
+    A [Tapis](https://tapis.io/)-defined HPC or VM environment that runs jobs.
     Defines
 
-    * Scheduler (Slurm for TACC HPC)
+    * Scheduler ([Slurm](https://slurm.schedmd.com/) for TACC HPC)
     * Login method (SSH)
     * Filesystem paths (*execDir*, *inputDir*, *outputDir*)
     * Allowed runtimes (ZIP, Singularity)
@@ -29,9 +29,9 @@ This glossary is focused on DesignSafe + Stampede3 workflows.
 
     Specifies how the application environment is provided.
 
-    * **ZIP** means unpacked scripts/binaries run in the host environment
-    * **SINGULARITY** means run inside a *.sif* container image
-    * **DOCKER** is only supported on systems that allow Docker (not TACC HPC)
+    * ZIP means unpacked scripts/binaries run in the host environment
+    * SINGULARITY means run inside a *.sif* container image
+    * DOCKER is only supported on systems that allow Docker (not TACC HPC)
 
     Example
     ```json
@@ -56,8 +56,8 @@ This glossary is focused on DesignSafe + Stampede3 workflows.
 
     Defines how the job is launched.
 
-    * **BATCH** is submitted through Slurm, supports multi-node jobs, and is used for OpenSeesSP/MP and most HPC workflows
-    * **FORK** runs directly on the host without a scheduler, for single-node, lightweight tasks
+    * BATCH is submitted through Slurm, supports multi-node jobs, and is used for OpenSeesSP/MP and most HPC workflows
+    * FORK runs directly on the host without a scheduler, for single-node, lightweight tasks
 
     Example
     ```json
@@ -67,7 +67,7 @@ This glossary is focused on DesignSafe + Stampede3 workflows.
 
 * **execSystemExecDir**
 
-    Directory on the execution system where ZIP archives are unpacked, Singularity images may be copied, the job's Slurm launch script is placed, and the actual execution happens. Essentially, this is the working directory for the running job.
+    Directory on the execution system where ZIP archives are unpacked, Singularity images may be copied, the job's Slurm launch script is placed, and the actual execution happens. This is the working directory for the running job.
 
 
 * **execSystemInputDir**

@@ -1,8 +1,8 @@
 # OpenSees Apps
 
-Running OpenSees on an HPC system like Stampede3 is not as simple as typing a command. Normally, you would need to
+Running [OpenSees](https://opensees.berkeley.edu/) on an HPC system like [Stampede3](https://www.tacc.utexas.edu/systems/stampede3) is not as simple as typing a command. Normally, you would need to
 
-* Write a SLURM batch script, specifying resources, module loads, and MPI/OpenMP directives.
+* Write a [SLURM](https://slurm.schedmd.com/) batch script, specifying resources, module loads, and MPI/OpenMP directives.
 * Stage input files by manually copying them from your storage area to the cluster's scratch space for faster execution.
 * Request the correct cores and nodes, balancing efficiency against allocation limits.
 * Retrieve results by copying output files back from scratch to long-term storage.
@@ -12,7 +12,7 @@ These steps are essential for using HPC resources effectively, but they can also
 
 ## OpenSees Tapis Apps
 
-To simplify this process, DesignSafe provides three official OpenSees Tapis Apps that automate job setup, submission, and file handling.
+To simplify this process, DesignSafe provides three official OpenSees [Tapis](https://tapis.io/) Apps that automate job setup, submission, and file handling.
 
 * OpenSeesEXPRESS, for sequential (single-core) simulations
 * OpenSeesMP, for parallel simulations across multiple cores and nodes

@@ -11,7 +11,7 @@
 
 ## 1. Purpose and Design Philosophy
 
-*designsafe-agnostic-app* is a general-purpose, HPC-oriented Tapis application designed to support many computational workflows without baking assumptions into the app itself.
+*designsafe-agnostic-app* is a general-purpose, HPC-oriented [Tapis](https://tapis.io/) application designed to support many computational workflows without baking assumptions into the app itself.
 
 Instead of creating separate apps for
 
@@ -36,7 +36,7 @@ This makes the app
 * easy to fork and extend
 
 Tapis orchestrates the job.
-SLURM executes it.
+[SLURM](https://slurm.schedmd.com/) executes it.
 The wrapper enforces semantics and safety.
 
 ---
@@ -118,7 +118,7 @@ The summary log also records
 ## 4. Overview
 
 *designsafe-agnostic-app* provides a single, well-instrumented execution interface for
-- OpenSees (Tcl), OpenSeesMP/SP (MPI), OpenSeesPy
+- [OpenSees](https://opensees.berkeley.edu/) (Tcl), OpenSeesMP/SP (MPI), OpenSeesPy
 - general Python workflows
 - reusable HPC job patterns (copy-in, unzip, hooks, packaging, output movement)
 

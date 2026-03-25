@@ -1,9 +1,9 @@
 # OpenFOAM app
 
-OpenFOAM is a powerful, open-source computational fluid dynamics (CFD) toolkit, widely used for modeling fluid flow, turbulence, heat transfer, and more. Running OpenFOAM on a large-scale HPC system like Stampede3 is notoriously complex for several reasons.
+[OpenFOAM](https://www.openfoam.com/) is a powerful, open-source computational fluid dynamics (CFD) toolkit, widely used for modeling fluid flow, turbulence, heat transfer, and more. Running OpenFOAM on a large-scale HPC system like [Stampede3](https://www.tacc.utexas.edu/systems/stampede3) is notoriously complex for several reasons.
 
 * You typically work with case directories containing *system/*, *constant/*, and *0/* folders, and these must be staged properly to the compute environment.
-* Running in parallel requires careful setup with *decomposePar*, plus a correctly configured *SLURM* script that specifies the MPI processes and threads.
+* Running in parallel requires careful setup with *decomposePar*, plus a correctly configured [SLURM](https://slurm.schedmd.com/) script that specifies the MPI processes and threads.
 * After execution, you often need to reconstruct data (*reconstructPar*) and post-process, then gather results back into persistent storage.
 
 Doing this manually means

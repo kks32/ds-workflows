@@ -1,0 +1,153 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 570" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <rect width="960" height="570" fill="white"/>
+
+  <!-- Title -->
+  <text x="480" y="30" text-anchor="middle" font-size="16" font-weight="600" fill="#222">DesignSafe Compute Environments</text>
+
+  <!-- Researcher pill -->
+  <rect x="355" y="48" width="250" height="38" rx="19" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1"/>
+  <text x="480" y="72" text-anchor="middle" font-size="12" font-weight="500" fill="#334155">🧑‍💻  Researcher</text>
+
+  <!-- Connector lines from researcher -->
+  <line x1="410" y1="86" x2="155" y2="115" stroke="#cbd5e1" stroke-width="1"/>
+  <line x1="480" y1="86" x2="480" y2="115" stroke="#cbd5e1" stroke-width="1"/>
+  <line x1="550" y1="86" x2="805" y2="115" stroke="#cbd5e1" stroke-width="1"/>
+
+  <!-- ==================== JUPYTERHUB ==================== -->
+  <rect x="20" y="115" width="270" height="268" rx="6" fill="white" stroke="#93c5fd" stroke-width="1"/>
+  <rect x="20" y="115" width="270" height="38" rx="6" fill="#dbeafe"/>
+  <rect x="20" y="140" width="270" height="13" fill="#dbeafe"/>
+  <!-- Jupyter logo: orange circle with three orbiting dots -->
+  <circle cx="44" cy="134" r="11" fill="none" stroke="#F37626" stroke-width="1.8"/>
+  <circle cx="44" cy="124" r="2" fill="#F37626"/>
+  <circle cx="36" cy="141" r="2" fill="#F37626"/>
+  <circle cx="52" cy="141" r="2" fill="#F37626"/>
+  <text x="62" y="139" font-size="13" font-weight="600" fill="#1e40af">JupyterHub</text>
+  <text x="200" y="139" font-size="9" fill="#64748b">Browser-based</text>
+
+  <rect x="21" y="153" width="268" height="76" fill="#f0f7ff"/>
+  <text x="272" y="167" text-anchor="end" font-size="8" fill="#93c5fd" font-weight="600">RESOURCES</text>
+  <text x="38" y="183" font-size="10.5" fill="#334155">8 CPU cores · 20 GB RAM</text>
+  <text x="38" y="199" font-size="10.5" fill="#334155">Single node · no queue</text>
+  <text x="38" y="215" font-size="10.5" fill="#334155">Interactive (starts immediately)</text>
+
+  <rect x="21" y="229" width="268" height="64" fill="#f8faff"/>
+  <text x="272" y="243" text-anchor="end" font-size="8" fill="#93c5fd" font-weight="600">APPLICATIONS</text>
+  <text x="38" y="258" font-size="10.5" fill="#334155">Python · R · Julia · OpenSeesPy</text>
+  <text x="38" y="274" font-size="10.5" fill="#334155">dapi · Jupyter notebooks</text>
+
+  <rect x="21" y="293" width="268" height="89" fill="white"/>
+  <text x="272" y="307" text-anchor="end" font-size="8" fill="#93c5fd" font-weight="600">USE WHEN</text>
+  <text x="38" y="322" font-size="10.5" fill="#475569">Developing and testing code</text>
+  <text x="38" y="338" font-size="10.5" fill="#475569">Pre/post-processing results</text>
+  <text x="38" y="354" font-size="10.5" fill="#475569">Submitting HPC jobs via dapi</text>
+  <text x="38" y="370" font-size="10.5" fill="#475569">Plotting and visualization</text>
+
+  <!-- ==================== VIRTUAL MACHINES ==================== -->
+  <rect x="320" y="115" width="320" height="268" rx="6" fill="white" stroke="#d8b4fe" stroke-width="1"/>
+  <rect x="320" y="115" width="320" height="38" rx="6" fill="#f3e8ff"/>
+  <rect x="320" y="140" width="320" height="13" fill="#f3e8ff"/>
+  <rect x="342" y="124" width="17" height="12" rx="2" fill="none" stroke="#7c3aed" stroke-width="1.3"/>
+  <line x1="348" y1="136" x2="353" y2="136" stroke="#7c3aed" stroke-width="1.3"/>
+  <line x1="350.5" y1="136" x2="350.5" y2="140" stroke="#7c3aed" stroke-width="1.3"/>
+  <line x1="346" y1="140" x2="355" y2="140" stroke="#7c3aed" stroke-width="1.3"/>
+  <text x="366" y="139" font-size="13" font-weight="600" fill="#7c3aed">Virtual Machines</text>
+
+  <rect x="321" y="153" width="318" height="76" fill="#faf5ff"/>
+  <text x="622" y="167" text-anchor="end" font-size="8" fill="#d8b4fe" font-weight="600">RESOURCES</text>
+  <text x="338" y="183" font-size="10.5" fill="#334155">Up to 48 cores · 49 GB RAM</text>
+  <text x="338" y="199" font-size="10.5" fill="#334155">Single node · shared across users</text>
+  <text x="338" y="215" font-size="10.5" fill="#334155">No queue · interactive or submit-only</text>
+
+  <rect x="321" y="229" width="318" height="64" fill="#fdf8ff"/>
+  <text x="622" y="243" text-anchor="end" font-size="8" fill="#d8b4fe" font-weight="600">APPLICATIONS</text>
+  <text x="338" y="258" font-size="10.5" fill="#334155">MATLAB · OpenSees · ADCIRC</text>
+  <text x="338" y="274" font-size="10.5" fill="#334155">STKO · QGIS</text>
+
+  <rect x="321" y="293" width="318" height="89" fill="white"/>
+  <text x="622" y="307" text-anchor="end" font-size="8" fill="#d8b4fe" font-weight="600">USE WHEN</text>
+  <text x="338" y="322" font-size="10.5" fill="#475569">Quick serial model tests</text>
+  <text x="338" y="338" font-size="10.5" fill="#475569">Interactive MATLAB analysis</text>
+  <text x="338" y="354" font-size="10.5" fill="#475569">Exploring spatial data in QGIS</text>
+  <text x="338" y="370" font-size="10.5" fill="#475569">Visualizing OpenSees in STKO</text>
+
+  <!-- ==================== HPC ==================== -->
+  <rect x="670" y="115" width="270" height="268" rx="6" fill="white" stroke="#6ee7b7" stroke-width="1"/>
+  <rect x="670" y="115" width="270" height="38" rx="6" fill="#d1fae5"/>
+  <rect x="670" y="140" width="270" height="13" fill="#d1fae5"/>
+  <rect x="692" y="122" width="18" height="5" rx="1" fill="none" stroke="#065f46" stroke-width="1"/>
+  <rect x="692" y="129" width="18" height="5" rx="1" fill="none" stroke="#065f46" stroke-width="1"/>
+  <rect x="692" y="136" width="18" height="5" rx="1" fill="none" stroke="#065f46" stroke-width="1"/>
+  <circle cx="696" cy="124.5" r="1" fill="#065f46"/>
+  <circle cx="696" cy="131.5" r="1" fill="#065f46"/>
+  <circle cx="696" cy="138.5" r="1" fill="#065f46"/>
+  <circle cx="706" cy="124.5" r="1" fill="#10b981"/>
+  <circle cx="706" cy="131.5" r="1" fill="#10b981"/>
+  <circle cx="706" cy="138.5" r="1" fill="#10b981"/>
+  <text x="716" y="139" font-size="13" font-weight="600" fill="#065f46">HPC at TACC</text>
+
+  <rect x="671" y="153" width="268" height="76" fill="#ecfdf5"/>
+  <text x="805" y="156" text-anchor="middle" font-size="8.5" fill="#64748b">Stampede3 · Frontera · Lonestar6</text>
+  <text x="922" y="167" text-anchor="end" font-size="8" fill="#6ee7b7" font-weight="600">RESOURCES</text>
+  <text x="688" y="183" font-size="10.5" fill="#334155">Up to thousands of cores</text>
+  <text x="688" y="199" font-size="10.5" fill="#334155">Multi-node · MPI parallel</text>
+  <text x="688" y="215" font-size="10.5" fill="#334155">SLURM queue · dedicated allocation</text>
+
+  <rect x="671" y="229" width="268" height="64" fill="#f0fdf4"/>
+  <text x="922" y="243" text-anchor="end" font-size="8" fill="#6ee7b7" font-weight="600">APPLICATIONS</text>
+  <text x="688" y="258" font-size="10.5" fill="#334155">OpenSees MP · OpenFOAM · ADCIRC</text>
+  <text x="688" y="274" font-size="10.5" fill="#334155">LS-DYNA · MPM · SimCenter tools</text>
+
+  <rect x="671" y="293" width="268" height="89" fill="white"/>
+  <text x="922" y="307" text-anchor="end" font-size="8" fill="#6ee7b7" font-weight="600">USE WHEN</text>
+  <text x="688" y="322" font-size="10.5" fill="#475569">Large nonlinear FE models</text>
+  <text x="688" y="338" font-size="10.5" fill="#475569">CFD with domain decomposition</text>
+  <text x="688" y="354" font-size="10.5" fill="#475569">Parameter sweeps (PyLauncher)</text>
+  <text x="688" y="370" font-size="10.5" fill="#475569">Regional hazard simulations</text>
+
+  <!-- ==================== STORAGE ==================== -->
+
+  <!-- Connection lines from panels to storage -->
+  <line x1="155" y1="383" x2="155" y2="440" stroke="#d97706" stroke-width="1"/>
+  <line x1="220" y1="383" x2="750" y2="440" stroke="#059669" stroke-width="1" stroke-dasharray="5,3"/>
+  <line x1="480" y1="383" x2="380" y2="440" stroke="#d97706" stroke-width="1"/>
+  <line x1="805" y1="383" x2="805" y2="440" stroke="#059669" stroke-width="1"/>
+  <line x1="740" y1="383" x2="520" y2="440" stroke="#d97706" stroke-width="1" stroke-dasharray="5,3"/>
+
+  <!-- Labels on lines (white pill backgrounds to sit on top of lines) -->
+  <rect x="132" y="405" width="42" height="14" rx="3" fill="white"/>
+  <text x="153" y="415" text-anchor="middle" font-size="8" fill="#d97706">direct</text>
+  <rect x="458" y="405" width="42" height="14" rx="3" fill="white"/>
+  <text x="479" y="415" text-anchor="middle" font-size="8" fill="#d97706">direct</text>
+  <rect x="784" y="405" width="42" height="14" rx="3" fill="white"/>
+  <text x="805" y="415" text-anchor="middle" font-size="8" fill="#059669">native</text>
+  <rect x="600" y="398" width="62" height="14" rx="3" fill="white"/>
+  <text x="631" y="408" text-anchor="middle" font-size="8" fill="#d97706">via Tapis</text>
+  <rect x="435" y="420" width="72" height="14" rx="3" fill="white"/>
+  <text x="471" y="430" text-anchor="middle" font-size="8" fill="#059669">Work mounted</text>
+
+  <!-- Corral box -->
+  <rect x="20" y="440" width="580" height="64" rx="6" fill="#fffbeb" stroke="#fcd34d" stroke-width="1"/>
+  <ellipse cx="48" cy="464" rx="8" ry="4" fill="none" stroke="#92400e" stroke-width="1"/>
+  <line x1="40" y1="464" x2="40" y2="474" stroke="#92400e" stroke-width="1"/>
+  <line x1="56" y1="464" x2="56" y2="474" stroke="#92400e" stroke-width="1"/>
+  <ellipse cx="48" cy="474" rx="8" ry="4" fill="none" stroke="#92400e" stroke-width="1"/>
+  <text x="68" y="468" font-size="12" font-weight="600" fill="#92400e">Corral (DesignSafe Storage)</text>
+  <text x="68" y="483" font-size="10" fill="#a16207">Backed up · persistent</text>
+  <text x="36" y="498" font-size="10" fill="#78716c">MyData  ·  MyProjects  ·  CommunityData  ·  Published</text>
+
+  <!-- TACC filesystems box -->
+  <rect x="630" y="440" width="310" height="64" rx="6" fill="#ecfdf5" stroke="#6ee7b7" stroke-width="1"/>
+  <rect x="650" y="456" width="16" height="5" rx="1" fill="none" stroke="#065f46" stroke-width="0.8"/>
+  <rect x="650" y="463" width="16" height="5" rx="1" fill="none" stroke="#065f46" stroke-width="0.8"/>
+  <rect x="650" y="470" width="16" height="5" rx="1" fill="none" stroke="#065f46" stroke-width="0.8"/>
+  <text x="674" y="468" font-size="12" font-weight="600" fill="#065f46">TACC Filesystems</text>
+  <text x="674" y="483" font-size="10" fill="#64748b">Not backed up · high performance</text>
+  <text x="646" y="498" font-size="10" fill="#78716c">Work ($WORK)  ·  Scratch ($SCRATCH)</text>
+
+  <!-- Legend -->
+  <line x1="40" y1="540" x2="70" y2="540" stroke="#666" stroke-width="1"/>
+  <text x="76" y="543" font-size="9" fill="#666">Direct access (mounted)</text>
+  <line x1="280" y1="540" x2="310" y2="540" stroke="#666" stroke-width="1" stroke-dasharray="5,3"/>
+  <text x="316" y="543" font-size="9" fill="#666">Indirect access (Tapis stages files)</text>
+</svg>

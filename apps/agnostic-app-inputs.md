@@ -2,13 +2,13 @@
 
 *Input parameters and what each one means*
 
-This section is the user manual for every input you see in the portal.
+The following covers every input available in the portal.
 
 ## 1. File input
 
 ### Input Directory (required)
 
-A single directory staged by Tapis into the job.
+A single directory staged by [Tapis](https://tapis.io/) into the job.
 
 What should be inside
 
@@ -123,7 +123,7 @@ If True-like, the wrapper attempts to use the TACC-compiled OpenSeesPy by
 - loading *python/3.12.11*, *hdf5/1.14.4*, *opensees*
 - copying *${TACC_OPENSEES_BIN}/OpenSeesPy.so* into the working directory as *./opensees.so*
 
-Use this when you want reliable OpenSeesPy on Stampede3 (recommended).
+Use this when you want reliable OpenSeesPy on [Stampede3](https://www.tacc.utexas.edu/systems/stampede3) (recommended).
 
 In your Python script
 
