@@ -1,19 +1,10 @@
 # Storage and File Management
 
-Simulation files need a home, and different stages of a workflow need different storage characteristics. The mesh files prepared on a laptop, the working directory where a solver writes intermediate results at full speed, and the archived outputs of a finished study all sit in different locations. Some are backed up. Some are fast but temporary. Knowing which is which prevents data loss and keeps jobs running efficiently.
+[How It Works](how-it-works.md) introduced the six storage areas on DesignSafe. This page covers the practical details of paths, file movement, and transfer strategies.
 
-## Storage Comparison
+## What is backed up and what is not
 
-| Storage Area | Purpose | Access | Persistence | Performance |
-|---|---|---|---|---|
-| MyData | Personal private storage for input files, scripts, and outputs | Owner only (unless shared) | Long-term, backed up | Standard |
-| MyProjects | Project-based collaborative storage linked to a [DesignSafe](https://designsafe-ci.org) project ID | Shared with project team | Long-term, archival, supports publication with DOI | Standard |
-| Work | High-performance workspace for active HPC jobs | Compute nodes, Data Depot, [JupyterHub](https://jupyter.designsafe-ci.org) | Long-term, NOT backed up | High |
-| Scratch | Temporary fast storage on compute systems | Compute nodes only | Purged periodically, NOT backed up | Very high |
-| CommunityData | Public datasets and shared examples | Read-only for all users | Permanent | Standard |
-| Published | Curated, citable datasets (NHERI, NEES) | Read-only for all users | Permanent | Standard |
-
-Work and Scratch are NOT backed up. Files lost there cannot be recovered. Always copy important results back to MyData or MyProjects after jobs complete. MyData and MyProjects live on Corral, [TACC](https://www.tacc.utexas.edu/)'s backed-up networked storage system.
+MyData, MyProjects, CommunityData, and Published all live on Corral, [TACC](https://www.tacc.utexas.edu/)'s backed-up networked storage system. Work and Scratch are NOT backed up. Files lost there cannot be recovered. Always copy important results back to MyData or MyProjects after jobs complete.
 
 ## Path Formats Across Environments
 
@@ -41,7 +32,7 @@ Actual paths on Stampede3 can be verified with `echo $HOME`, `echo $WORK`, and `
 
 ## How dapi Translates Paths
 
-When submitting jobs through [dapi](https://designsafe-ci.github.io/dapi/), a single call converts DesignSafe paths to [Tapis](https://tapis.readthedocs.io/en/latest/) URIs.
+When submitting jobs through [dapi](https://designsafe-ci.github.io/dapi/), a single call converts [DesignSafe](https://designsafe-ci.org) paths to [Tapis](https://tapis.readthedocs.io/en/latest/) URIs.
 
 ```python
 ds.files.to_uri("/MyData/analysis/")

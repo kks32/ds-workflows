@@ -24,8 +24,6 @@ In detail, the sequence is
 
 The wait between steps 3 and 4 is queue time. It depends on how many resources were requested, how busy the system is, and which queue was selected. Development queues typically start within minutes. A 64-node production job on the normal queue may wait longer.
 
-SLURM (Simple Linux Utility for Resource Management) is the job scheduler on all TACC systems. Thousands of researchers share the same hardware, and SLURM decides which jobs run, when they run, and on which nodes. It enforces walltime limits and tracks resource usage for billing. Researchers using dapi or the web portal never interact with SLURM directly. Tapis translates their resource requests into SLURM directives automatically.
-
 ## Choosing resources
 
 Submitting a job means requesting a share of a supercomputer's hardware for a limited time. Getting the request right matters. Too little time or memory causes the job to fail. Too many nodes wastes allocation budget and increases queue wait time. The parameters below control this balance.

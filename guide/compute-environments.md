@@ -1,6 +1,6 @@
 # Compute Environments
 
-Where does a job actually run? The answer depends on its size and how much interaction it needs. A quick test of a Tcl model can finish on a shared virtual machine in seconds. A 3D nonlinear time-history analysis of a 40-story building may need 128 cores on [Stampede3](https://docs.tacc.utexas.edu/hpc/stampede3/) for several hours. A post-processing script that plots spectral acceleration curves fits comfortably inside a Jupyter notebook. [DesignSafe](https://designsafe-ci.org) provides three compute environments, and many researchers move between them as a project progresses from early development to production runs.
+This page covers the hardware details behind each environment introduced in [How It Works](how-it-works.md).
 
 ## JupyterHub on Kubernetes
 
@@ -8,11 +8,11 @@ The DesignSafe [JupyterHub](https://jupyter.designsafe-ci.org) runs on a [Kubern
 
 Sessions start immediately with no queue wait.
 
-JupyterHub is the right environment for developing and testing workflows, running Python scripts interactively, pre-processing input files, visualizing simulation output, and submitting jobs to HPC through [Tapis](https://tapis.readthedocs.io/en/latest/) and [dapi](https://designsafe-ci.github.io/dapi/). When a workload needs more memory, more cores, or multi-node execution, the job should move to HPC.
+For heavier interactive work, Jupyter HPC Native sessions run directly on [Stampede3](https://docs.tacc.utexas.edu/hpc/stampede3/) CPU nodes or Vista H200 GPU nodes. These provide access to full node resources and support persistent conda environments, but they go through the [SLURM](https://slurm.schedmd.com/documentation.html) queue and can run up to 48 hours.
 
 ## Virtual Machines
 
-DesignSafe provides access to shared virtual machines (VMs) at TACC for several applications. A VM is a simulated computer running on physical hardware, sharing that hardware's resources with other VMs. VM jobs bypass the HPC queue and typically start immediately, but performance varies under load because the hardware is shared across users.
+[DesignSafe](https://designsafe-ci.org) provides access to shared virtual machines (VMs) at TACC for several applications. A VM is a simulated computer running on physical hardware, sharing that hardware's resources with other VMs. VM jobs bypass the HPC queue and typically start immediately, but performance varies under load because the hardware is shared across users.
 
 | Application | VM Type | Notes |
 |---|---|---|
@@ -23,13 +23,11 @@ DesignSafe provides access to shared virtual machines (VMs) at TACC for several 
 | [STKO](https://asdeasoft.net/stko/) | Interactive desktop (DCV) | OpenSees visualization and input/output file creation |
 | [QGIS](https://qgis.org/) | Interactive desktop (DCV) | Geographic information system for spatial data |
 
-Some VM applications (STKO, QGIS) provide a full graphical desktop through [NICE DCV](https://docs.tacc.utexas.edu/tutorials/remotedesktopaccess/) (Desktop Cloud Visualization). DCV streams a remote desktop to the browser, so researchers can interact with GUI-based tools as if they were running locally. The session opens directly from the DesignSafe portal after a short startup period.
-
-VMs work well for lightweight, short-running tasks and interactive exploration. A researcher testing a 5-second ground-motion analysis in OpenSees, running a quick MATLAB curve-fitting script, building a finite-element mesh in STKO, or inspecting a geospatial dataset in QGIS can get results without waiting in a queue. For large or parallel computations, HPC is a better fit.
+STKO and QGIS provide a full graphical desktop through [NICE DCV](https://docs.tacc.utexas.edu/tutorials/remotedesktopaccess/) (Desktop Cloud Visualization). DCV streams a remote desktop to the browser, so researchers can interact with GUI-based tools as if they were running locally. The session opens directly from the DesignSafe portal after a short startup period.
 
 ## HPC at TACC
 
-For production-scale simulations, DesignSafe connects to TACC's high-performance computing systems. These are clusters of interconnected machines (nodes) that support multi-node execution, [MPI](https://www.mpi-forum.org/) parallelism, and large memory allocations. Jobs are submitted through [SLURM](https://slurm.schedmd.com/documentation.html), the scheduler that manages all compute resources, and wait in a queue until the requested hardware becomes available.
+For production-scale simulations, DesignSafe connects to TACC's high-performance computing systems. These are clusters of interconnected machines (nodes) that support multi-node execution, [MPI](https://www.mpi-forum.org/) parallelism, and large memory allocations. Jobs are submitted through SLURM, the scheduler that manages all compute resources, and wait in a queue until the requested hardware becomes available.
 
 ### Stampede3
 
@@ -47,18 +45,6 @@ The choice of node type affects both performance and cost. A structural analysis
 
 ### Frontera and Lonestar6
 
-[Frontera](https://docs.tacc.utexas.edu/hpc/frontera/) is TACC's leadership-class system with 56-core Intel Cascade Lake nodes and 192 GB of RAM, designed for the largest parallel workloads. [Lonestar6](https://docs.tacc.utexas.edu/hpc/lonestar6/) provides general-purpose HPC with 128-core AMD Milan nodes and 256 GB of RAM, including GPU nodes with NVIDIA A100 accelerators. Both systems are accessible through DesignSafe via Tapis. Consult the linked TACC user guides for queue policies and allocation details.
-
-## Choosing an Environment
-
-| Situation | Recommended Environment | Example |
-|---|---|---|
-| Developing scripts, testing small models, visualizing results | JupyterHub | Writing a Python post-processing script, plotting response spectra |
-| Running a quick interactive session | VM | Testing an OpenSees Tcl model, running a short MATLAB analysis, exploring spatial data in QGIS, building a mesh in STKO |
-| Running a large or long simulation | HPC (Stampede3, Frontera, LS6) | A nonlinear time-history analysis of a 3D building, an ADCIRC storm-surge forecast |
-| Running hundreds of independent simulations | HPC with [PyLauncher](https://github.com/TACC/pylauncher) | A fragility study varying ground-motion intensity across 500 records |
-| Parallel simulation with domain decomposition | HPC with MPI | A multi-node OpenFOAM CFD simulation, an ADCIRC mesh with millions of elements |
-
-Many researchers follow a natural progression. Develop and test interactively in JupyterHub, validate with small problems on a VM or in the development queue, then scale to HPC batch jobs for production runs.
+[Frontera](https://docs.tacc.utexas.edu/hpc/frontera/) is TACC's leadership-class system with 56-core Intel Cascade Lake nodes and 192 GB of RAM, designed for the largest parallel workloads. [Lonestar6](https://docs.tacc.utexas.edu/hpc/lonestar6/) provides general-purpose HPC with 128-core AMD Milan nodes and 256 GB of RAM, including GPU nodes with NVIDIA A100 accelerators. Both systems are accessible through DesignSafe via [Tapis](https://tapis.readthedocs.io/en/latest/). Consult the linked TACC user guides for queue policies and allocation details.
 
 [Running HPC Jobs](job-resources.md) covers job submission, resource selection, and queue policies in detail.
