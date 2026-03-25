@@ -1,177 +1,99 @@
 # Computational Workflows on DesignSafe
 
-[DesignSafe](https://designsafe-ci.org) provides a comprehensive cyberinfrastructure for conducting, managing, and analyzing research workflows in natural hazards engineering. It brings together interactive computing environments, shared data services, and large-scale computational resources to support the full research lifecycle, from early model development to large ensemble simulations to advanced post-processing and data analysis.
+[DesignSafe](https://designsafe-ci.org) connects a browser-based workspace to the supercomputers and storage at the [Texas Advanced Computing Center (TACC)](https://www.tacc.utexas.edu/). Research data and compute hardware sit in the same facility. A simulation that takes hours on a laptop can finish in minutes on a cluster, and the input data never has to leave TACC.
 
-At its core, DesignSafe is tightly integrated with the [Texas Advanced Computing Center (TACC)](https://www.tacc.utexas.edu/), which supplies the high-performance computing (HPC) systems and large-scale storage needed to execute demanding analyses. Most computational jobs launched through DesignSafe, whether from the web portal, a Jupyter notebook, or an automated pipeline, ultimately run on TACC systems such as [Stampede3](https://docs.tacc.utexas.edu/hpc/stampede3/), enabling simulations and studies that would be impractical on a laptop.
-
-The platform supports lightweight interactive exploration as well as production-scale simulations spanning many nodes and thousands of CPU cores. Data and compute are co-located at TACC, so earthquake ground-motion records, structural response datasets, and geotechnical field data hosted on DesignSafe can be accessed directly from the compute environment without downloading and re-uploading. A simulation that takes 12 hours on a laptop can finish in minutes by distributing the workload across many cores. Understanding how to move effectively between interactive and batch modes is essential for building efficient and reproducible research workflows.
+This page explains how the platform works. The rest of the guide covers specific tasks: [submitting jobs](job-resources.md), [debugging failures](debugging.md), [parallel computing](parallel-computing.md), and [parameter sweeps](parameter-sweeps.md).
 
 ## The DesignSafe Portal
 
-Everything starts at the [DesignSafe web portal](https://www.designsafe-ci.org/rw/workspace/). The portal is the central hub for launching tools, managing data, and submitting jobs. From the portal workspace, researchers can
+Everything starts at the [DesignSafe web portal](https://www.designsafe-ci.org/rw/workspace/). The portal is the single entry point for launching compute environments, submitting jobs, and managing data. From the workspace, researchers can open a [JupyterHub](https://jupyter.designsafe-ci.org) notebook, start an interactive application like [MATLAB](https://www.mathworks.com/products/matlab.html) or [QGIS](https://qgis.org/), submit a batch simulation to an HPC cluster, or browse and publish datasets in the [Data Depot](https://designsafe-ci.org/user-guide/datadepot/).
 
-- Launch [JupyterHub](https://jupyter.designsafe-ci.org) for interactive notebooks (Python, R, Julia)
-- Launch Jupyter HPC Native sessions on Stampede3 or Vista GPU nodes for heavier interactive work
-- Open interactive desktop sessions via DCV for tools like [STKO](https://asdeasoft.net/stko/) and [QGIS](https://qgis.org/), or launch visualization tools like [ParaView](https://www.paraview.org/) and [VisIt](https://visit-dav.github.io/visit-website/) on HPC nodes
-- Submit HPC batch jobs for simulation applications ([OpenSees](https://opensees.berkeley.edu/), [OpenFOAM](https://www.openfoam.com/), [ADCIRC](https://adcirc.org/), [LS-DYNA](https://lsdyna.ansys.com/), MPM, and others)
-- Access the [Data Depot](https://designsafe-ci.org/user-guide/datadepot/) to browse, upload, share, curate, and publish datasets
+Researchers can also bypass the portal and submit jobs programmatically from a Jupyter notebook using [dapi](https://designsafe-ci.github.io/dapi/). This is the preferred approach for automated pipelines, parameter sweeps, and reproducible workflows.
 
-The portal's submission forms look interactive, but jobs submitted to HPC systems are batch jobs. The form simplifies the process of specifying inputs, resources, and parameters, but execution is queued, scheduled, and non-interactive.
+## How a job gets from you to the supercomputer
 
-Researchers can also bypass the portal entirely and submit jobs programmatically from a Jupyter notebook using [dapi](https://designsafe-ci.github.io/dapi/). This is the preferred approach for automated pipelines, parameter sweeps, and reproducible workflows.
-
-## Compute environments
-
-DesignSafe provides three types of compute environments, all accessible from the portal.
+Three layers connect a researcher's browser to TACC hardware.
 
 <img src="../images/compute-environments.svg" alt="DesignSafe compute environments overview" width="100%" />
 
-### JupyterHub
+**Interface layer.** The researcher works in the portal or a JupyterHub notebook. The portal launches tools, submits jobs, and manages data through a browser. JupyterHub provides an interactive Python/R environment for writing code, testing models, and submitting jobs programmatically through dapi.
 
-The DesignSafe JupyterHub runs on a [Kubernetes](https://kubernetes.io/) cluster at TACC. When a researcher starts a session, Kubernetes provisions a dedicated container with up to 8 CPU cores and 20 GB of RAM. These resources belong exclusively to that session. No other users share the container's CPUs or memory, though the underlying physical node hosts multiple containers, so I/O may see minor contention under heavy load.
+**Middleware layer.** [Tapis](https://tapis.readthedocs.io/en/latest/) sits between the interface and TACC hardware. When a job is submitted, Tapis copies input files to the execution system, generates a scheduler script, submits it, monitors execution, and copies results back. The researcher never writes scheduler scripts or transfers files manually.
 
-Sessions start immediately with no queue wait.
+**Execution layer.** [SLURM](https://slurm.schedmd.com/documentation.html) is the job scheduler on all TACC systems. It manages a queue, allocates hardware fairly across thousands of researchers, enforces time limits, and tracks resource usage. Every DesignSafe job that runs on HPC is a SLURM job, whether submitted through the portal, dapi, or direct SSH.
 
-JupyterHub is the right environment for developing and testing workflows, running Python scripts interactively, pre-processing input files, visualizing simulation output, and submitting jobs to HPC through Tapis and dapi.
+## Three compute environments
 
-For heavier interactive work, Jupyter HPC Native sessions run directly on Stampede3 CPU nodes or Vista H200 GPU nodes. These provide access to full node resources and support persistent conda environments, but they go through the [SLURM](https://slurm.schedmd.com/documentation.html) queue and can run up to 48 hours.
+DesignSafe provides three places where computation can happen. Each serves a different purpose.
 
-### Virtual machines
+**JupyterHub** is where most day-to-day work happens. Each session gets a dedicated container (up to 8 CPU cores, 20 GB RAM) that starts immediately with no queue wait. Researchers write code, test models, visualize results, and submit HPC jobs from here. For heavier interactive work, Jupyter HPC Native sessions run directly on [Stampede3](https://docs.tacc.utexas.edu/hpc/stampede3/) or Vista GPU nodes with full node resources, though these go through the SLURM queue.
 
-DesignSafe provides access to shared virtual machines (VMs) at TACC for several applications. A VM is a simulated computer running on physical hardware, sharing that hardware's resources with other VMs. VM jobs bypass the HPC queue and typically start immediately, but performance varies under load because the hardware is shared across users.
+**Virtual machines** run applications that need an interactive session without a queue wait. [OpenSees](https://opensees.berkeley.edu/) Interactive, [MATLAB](https://www.mathworks.com/products/matlab.html), [ADCIRC](https://adcirc.org/) Interactive, [STKO](https://asdeasoft.net/stko/), and [QGIS](https://qgis.org/) all run on shared VMs at TACC. STKO and QGIS provide a full graphical desktop through [NICE DCV](https://docs.tacc.utexas.edu/tutorials/remotedesktopaccess/), which streams a remote desktop to the browser. VMs share hardware across users, so they work best for lightweight tasks and quick tests.
 
-| Application | VM Type | Notes |
+**HPC systems** handle production-scale computation. Stampede3, [Frontera](https://docs.tacc.utexas.edu/hpc/frontera/), and [Lonestar6](https://docs.tacc.utexas.edu/hpc/lonestar6/) are clusters of interconnected machines (nodes), each with dozens of CPU cores and hundreds of gigabytes of memory. Jobs can span multiple nodes. SLURM manages the queue. Long-running simulations, multi-core parallel analyses, and parametric sweeps with hundreds of runs all belong on HPC. Even when launched through the portal's graphical forms, HPC jobs are batch jobs that run unattended.
+
+### Which environment for what
+
+| What you need to do | Environment | Example |
 |---|---|---|
-| OpenSees EXPRESS | Submit-only (no SSH) | Sequential Tcl jobs, 24 cores, 48 GB RAM |
-| OpenSees Interactive | Interactive IDE | All OpenSees variants (Tcl and Python), 24 cores, 48 GB RAM |
-| [MATLAB](https://www.mathworks.com/products/matlab.html) | Interactive session | MATLAB 2022b, suited to lighter workloads |
-| ADCIRC Interactive | Interactive JupyterLab | Pre-compiled ADCIRC, testing and development |
-| STKO | Interactive desktop (DCV) | OpenSees visualization and input/output file creation |
-| QGIS | Interactive desktop (DCV) | Geographic information system for spatial data |
+| Write and test code, visualize results | JupyterHub | Developing a post-processing script, plotting response spectra |
+| Interactive GUI session | VM (DCV desktop) | Building a mesh in STKO, exploring spatial data in QGIS |
+| Quick serial test | VM | Testing an OpenSees Tcl model, short MATLAB analysis |
+| Large or long-running simulation | HPC batch | Nonlinear time-history analysis, ADCIRC storm-surge forecast |
+| Hundreds of independent runs | HPC with [PyLauncher](https://github.com/TACC/pylauncher) | Fragility study across 500 ground-motion records |
+| Parallel simulation across many cores | HPC with [MPI](https://www.mpi-forum.org/) | Multi-node [OpenFOAM](https://www.openfoam.com/) CFD, ADCIRC with millions of elements |
+| GPU-accelerated work | Jupyter HPC Native (Vista) or GPU queue | ML training, GPU-accelerated simulation |
 
-STKO and QGIS provide a full graphical desktop through [NICE DCV](https://docs.tacc.utexas.edu/tutorials/remotedesktopaccess/) (Desktop Cloud Visualization). DCV streams a remote desktop to the browser, so researchers can interact with GUI-based tools as if they were running locally. The session opens directly from the DesignSafe portal after a short startup period.
+Most researchers follow a natural progression: develop and test interactively in JupyterHub, then submit production runs as batch jobs to HPC.
 
-VMs work well for lightweight, short-running tasks and interactive exploration. A researcher testing a 5-second ground-motion analysis in OpenSees, running a quick MATLAB curve-fitting script, building a finite-element mesh in STKO, or inspecting a geospatial dataset in QGIS can get results without waiting in a queue. For large or parallel computations, HPC is a better fit.
+## Data and compute live together
 
-### HPC at TACC
+Research data and compute hardware are co-located at TACC. A ground-motion database in CommunityData can be referenced directly from a simulation job without downloading it to a laptop and re-uploading it to the cluster. This is one of DesignSafe's most important advantages.
 
-For production-scale simulations, DesignSafe connects to TACC's high-performance computing systems. These are clusters of interconnected machines (nodes) that support multi-node execution, [MPI](https://www.mpi-forum.org/) parallelism, and large memory allocations. Jobs are submitted through SLURM, the scheduler that manages all compute resources, and wait in a queue until the requested hardware becomes available. Long-running simulations, parallel analyses across many cores, and parametric sweeps with hundreds of runs all belong on HPC.
+DesignSafe provides several storage areas with different tradeoffs between persistence and performance.
 
-The primary systems are [Stampede3](https://docs.tacc.utexas.edu/hpc/stampede3/), [Frontera](https://docs.tacc.utexas.edu/hpc/frontera/), and [Lonestar6](https://docs.tacc.utexas.edu/hpc/lonestar6/). Each offers different node types with varying core counts, memory sizes, and GPU options. [Running HPC Jobs](job-resources.md) covers hardware specs, node types, queues, and resource sizing in detail.
+| Storage area | Purpose | Backed up |
+|---|---|---|
+| MyData | Private files (scripts, inputs, outputs) | Yes |
+| MyProjects | Shared project files visible to collaborators | Yes |
+| Work | Active workspace on the HPC system | No |
+| Scratch | Temporary high-speed storage on HPC | No (purged) |
+| CommunityData | Public datasets shared across DesignSafe | Yes |
+| Published | Archived datasets with DOIs | Yes |
 
-## Interactive and batch workflows
+MyData and MyProjects live on Corral, TACC's backed-up storage. Work and Scratch are fast but not backed up. Always copy important results to MyData or MyProjects when a job finishes.
 
-Computational research on DesignSafe falls into two modes of work.
+When a job is submitted, Tapis automatically stages input files to the execution system before the job starts, and archives output back to DesignSafe storage after completion. There is no manual file transfer step. [Running HPC Jobs](job-resources.md) covers the details of storage paths, file staging, and transfer strategies.
 
-Interactive workflows involve writing code, running it, inspecting results, modifying inputs, and iterating. The feedback loop is tight, often seconds between runs. JupyterHub, the VM-based sessions (MATLAB, OpenSees Interactive, QGIS), and DCV desktop environments (STKO, QGIS) all support this mode.
+## Designing your workflow
 
-Batch workflows involve submitting a job to a queue and collecting results later. There is no live interaction during execution. The job runs on dedicated hardware, often for minutes to hours, and Tapis archives the output when it finishes. All HPC jobs on Stampede3, Frontera, and Lonestar6 are batch jobs, whether submitted through the portal, dapi, or direct SSH.
-
-Most research projects use both modes. A typical progression is to develop and test interactively in JupyterHub, then submit production runs as batch jobs to HPC.
-
-## Designing a workflow
-
-A computational workflow should be designed around the research question, not around a specific tool or computing system. A workflow that works for exploratory analysis may fail when scaled to thousands of simulations or extended to include coupled physics and uncertainty quantification.
-
-An effective workflow is modular, with each stage handling a well-defined task.
+A workflow should be designed around the research question, not around a specific tool. The most effective approach is to keep each stage modular.
 
 1. **Input generation** prepares models, parameters, ground motions, or meshes.
 2. **Execution** runs the simulation, ensemble, or training loop.
 3. **Post-processing** extracts results, computes statistics, and generates figures.
 4. **Iteration** repeats execution across parameter sets, Monte Carlo samples, or convergence loops.
 
-When these stages are cleanly separated, each one can be reused across projects, swapped to a different execution environment as computational demands grow, or combined in new ways as the research evolves. A mesh generator can change without touching the solver. A plotting script can be updated without re-running simulations. The execution stage can move from JupyterHub to HPC batch without rewriting the input generation or post-processing steps.
+When these stages are separate, each can be reused across projects, swapped to a different environment, or combined in new ways. A mesh generator can change without touching the solver. The execution stage can move from JupyterHub to HPC without rewriting the post-processing code.
 
-Scalability also needs to be considered from the start. A workflow that runs successfully for one model, one parameter set, and one dataset should be able to scale to hundreds of simulations, higher-resolution models, or more complex coupling. Different workloads scale in different ways. Some (parameter sweeps, Monte Carlo) scale trivially by running many independent jobs. Others (large finite-element models, coupled simulations) are limited by memory per node or inter-process communication. Some benefit from GPUs. Matching the workload to the right execution strategy is as important as choosing the right hardware.
+Scalability follows from this structure. But different workloads scale differently, and the right strategy depends on the problem.
 
-## Choosing the right environment
-
-| Situation | Environment | Example |
+| Workload pattern | How it scales | Example |
 |---|---|---|
-| Writing and testing code, visualizing results | JupyterHub (interactive) | Developing a Python post-processing script, plotting response spectra |
-| Quick interactive session with a GUI tool | VM with DCV (interactive) | Exploring spatial data in QGIS, building an OpenSees model in STKO |
-| Quick serial simulation test | VM (interactive or submit-only) | Testing an OpenSees Tcl model, running a short MATLAB analysis |
-| Large or long-running simulation | HPC batch job | Nonlinear time-history analysis of a 3D building, ADCIRC storm-surge forecast |
-| Hundreds of independent simulations | HPC batch with [PyLauncher](https://github.com/TACC/pylauncher) | Fragility study varying ground-motion intensity across 500 records |
-| Parallel simulation needing many cores | HPC batch with MPI | Multi-node OpenFOAM CFD, ADCIRC mesh with millions of elements |
-| GPU-accelerated computation or AI/ML | Jupyter HPC Native (Vista) or HPC GPU queue | Training a neural network, GPU-accelerated material simulation |
+| Many independent runs | Add more tasks to a single allocation ([PyLauncher](https://github.com/TACC/pylauncher)) | Fragility study with 500 ground-motion records |
+| One large model | Divide the domain across cores with MPI | 3D nonlinear structural analysis, ADCIRC storm surge |
+| Memory-bound analysis | Use nodes with more RAM or fewer cores per node | Large stiffness matrix assembly |
+| GPU-accelerated work | Use GPU queues on Stampede3 or Lonestar6 | ML training, dense linear algebra |
 
-## Storage and data management
+Matching the workload to the right strategy matters more than choosing the biggest machine. [Parallel Computing](parallel-computing.md) and [Parameter Sweeps](parameter-sweeps.md) cover these scaling strategies in detail.
 
-One of DesignSafe's key advantages is that data and compute live in the same place. Research datasets, simulation inputs, and published results are all stored at TACC alongside the compute systems. A ground-motion database in CommunityData, for example, can be referenced directly from a simulation job without downloading it to a laptop and re-uploading it to the cluster.
+## Where to go next
 
-The [Data Depot](https://designsafe-ci.org/user-guide/datadepot/) provides the web interface for managing files across these storage areas.
-
-| Storage area | What it holds | Backed up | Accessible from |
-|---|---|---|---|
-| MyData | Private files | Yes | JupyterHub, portal, VMs |
-| MyProjects | Shared project files | Yes | JupyterHub, portal, collaborators |
-| Work | Active HPC data | No | Compute nodes, JupyterHub |
-| Scratch | Temporary fast storage | No (purged periodically) | Compute nodes |
-| CommunityData | Public datasets | Yes | Everyone (read-only) |
-| Published | Archived datasets with DOIs | Yes | Everyone (read-only) |
-
-MyData, MyProjects, CommunityData, and Published all live on Corral, TACC's backed-up networked storage system. Work and Scratch are NOT backed up. Files lost there cannot be recovered. Always copy important results back to MyData or MyProjects after jobs complete.
-
-### Paths across environments
-
-The same storage area appears at different paths depending on where it is accessed.
-
-JupyterHub paths (mounted in the notebook file browser)
-
-| Storage Area | Path |
+| I want to... | Read |
 |---|---|
-| MyData | `/home/jupyter/MyData/` |
-| MyProjects | `/home/jupyter/MyProjects/PRJ-...` |
-| Work | `/home/jupyter/Work/stampede3/` |
-| CommunityData | `/home/jupyter/CommunityData/` |
-| NHERI Published | `/home/jupyter/NHERI-Published/PRJ-...` |
-
-Stampede3 paths (absolute UNIX paths on the HPC system)
-
-| Storage Area | Path |
-|---|---|
-| Home | `/home1/<groupid>/<username>/` |
-| Work | `/work2/<groupid>/<username>/stampede3/` |
-| Scratch | `/scratch/<groupid>/<username>/` |
-
-Actual paths on Stampede3 can be verified with `echo $HOME`, `echo $WORK`, and `echo $SCRATCH`.
-
-### How dapi translates paths
-
-When submitting jobs through dapi, a single call converts DesignSafe paths to Tapis URIs.
-
-```python
-ds.files.to_uri("/MyData/analysis/")
-```
-
-This converts a familiar DesignSafe path into the Tapis URI that the job submission system requires. See the [dapi documentation](https://designsafe-ci.github.io/dapi/) for the full file-management API.
-
-### File movement during job execution
-
-Data moves through a predictable cycle during job execution.
-
-1. Prepare input files in MyData or MyProjects.
-2. Submit the job. Tapis stages inputs from DesignSafe storage to the execution system's Work or Scratch directory.
-3. The application reads from and writes to local high-performance storage during execution.
-4. After the job completes, Tapis archives results back to DesignSafe storage.
-
-There is no need to manually transfer files between DesignSafe and TACC systems. Tapis handles staging and archiving automatically.
-
-### File transfer tips
-
-Many small files transfer slowly. A directory with 1,000 small CSV files takes significantly longer to stage than a single tar.gz archive containing the same data. Bundle input files before staging whenever possible to reduce overhead.
-
-If multiple jobs share the same input data (for example, 500 ground-motion records reused across a fragility study), keep that data in Work to avoid re-staging it for every submission.
-
-Archive only final outputs. Intermediate files and logs can remain in Work or Scratch temporarily, then be discarded once the important results have been copied.
-
-Large datasets benefit from the higher I/O bandwidth of Work and Scratch. Running jobs directly against Corral (MyData) is slower and not recommended for production simulations.
-
-## Next steps
-
-- [Running HPC Jobs](job-resources.md) for submitting jobs, choosing resources, and understanding how jobs flow through the system
-- [Debugging Failed Jobs](debugging.md) for reading output files and interpreting job states
-- [Parallel Computing](parallel-computing.md) for MPI and multi-node execution
-- [Parameter Sweeps](parameter-sweeps.md) for high-throughput studies with PyLauncher
-- [DesignSafe Applications](../apps/overview.md) for the full catalog of available tools
+| Submit a job to HPC | [Running HPC Jobs](job-resources.md) |
+| Figure out why my job failed | [Debugging Failed Jobs](debugging.md) |
+| Run a simulation across many cores | [Parallel Computing](parallel-computing.md) |
+| Run hundreds of independent simulations | [Parameter Sweeps](parameter-sweeps.md) |
+| See what applications are available | [DesignSafe Applications](../apps/overview.md) |
+| Understand Tapis internals or build a custom app | [Advanced Topics](../advanced/tapis.md) |
