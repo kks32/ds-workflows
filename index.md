@@ -27,10 +27,8 @@ For installation, authentication, and API reference, see the [dapi documentation
 
 ## Contents
 
-- [How DesignSafe Runs Your Jobs](guide/how-it-works.md)
-- [Compute Environments](guide/compute-environments.md)
-- [Storage and File Management](guide/storage.md)
-- [Job Resources](guide/job-resources.md)
+- [How It Works](guide/how-it-works.md) (portal, environments, storage, workflow design)
+- [Running HPC Jobs](guide/job-resources.md)
 - [Debugging Failed Jobs](guide/debugging.md)
 - [Parallel Computing](guide/parallel-computing.md)
 - [Parameter Sweeps](guide/parameter-sweeps.md)

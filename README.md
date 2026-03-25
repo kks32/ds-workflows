@@ -8,8 +8,7 @@ A guide to running computational workflows on [DesignSafe](https://designsafe-ci
 
 ## What this covers
 
-- **Compute environments** on DesignSafe (JupyterHub, Virtual Machines, HPC at TACC)
-- **Storage and file management** across DesignSafe and TACC filesystems
+- **How it works** including the portal, compute environments (JupyterHub, VMs, HPC), storage systems, and workflow design
 - **Running HPC jobs** with dapi, including resource selection, queues, and allocations
 - **Debugging** failed jobs using Tapis job states and SLURM output files
 - **Parallel computing** with MPI for multi-node simulations

@@ -1,6 +1,6 @@
 # DesignSafe Applications
 
-[DesignSafe](https://designsafe-ci.org) provides access to simulation, analysis, visualization, and data tools for natural hazards research. Applications run on [TACC](https://www.tacc.utexas.edu/) HPC systems, virtual machines, web interfaces, or through [JupyterHub](https://jupyter.designsafe-ci.org/) notebooks. See [Compute Environments](../guide/compute-environments.md) for details on where each type of application runs.
+[DesignSafe](https://designsafe-ci.org) provides access to simulation, analysis, visualization, and data tools for natural hazards research. Applications run on [TACC](https://www.tacc.utexas.edu/) HPC systems, virtual machines, web interfaces, or through [JupyterHub](https://jupyter.designsafe-ci.org/) notebooks. See [How It Works](../guide/how-it-works.md) for details on where each type of application runs.
 
 ## Simulation
 
