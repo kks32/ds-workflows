@@ -1,5 +1,9 @@
 # DesignSafe Workflows
 
+[![License](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
+[![DesignSafe](https://img.shields.io/badge/DesignSafe-CI-blue)](https://designsafe-ci.org)
+[![Authors](https://img.shields.io/badge/Authors-Kumar%20%7C%20Mazzoni-orange)](AUTHORS.md)
+
 Run simulations on [TACC](https://www.tacc.utexas.edu/) supercomputers from a [DesignSafe](https://designsafe-ci.org) Jupyter notebook with [dapi](https://designsafe-ci.github.io/dapi/).
 
 ```python
