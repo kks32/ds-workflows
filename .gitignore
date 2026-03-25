@@ -1,0 +1,8 @@
+_build/
+node_modules/
+.DS_Store
+*.pyc
+__pycache__/
+.ipynb_checkpoints/
+package-lock.json
+package.json
