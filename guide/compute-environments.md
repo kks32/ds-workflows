@@ -23,6 +23,8 @@ DesignSafe provides access to shared virtual machines (VMs) at TACC for several 
 | [STKO](https://asdeasoft.net/stko/) | Interactive desktop (VNC) | OpenSees visualization and input/output file creation |
 | [QGIS](https://qgis.org/) | Interactive desktop (VNC) | Geographic information system for spatial data |
 
+Some VM applications (STKO, QGIS) provide a full graphical desktop through [VNC](https://en.wikipedia.org/wiki/Virtual_Network_Computing) (Virtual Network Computing). VNC streams a remote desktop to the browser, so researchers can interact with GUI-based tools as if they were running locally. The session opens directly from the DesignSafe portal after a short startup period. [DCV](https://docs.tacc.utexas.edu/tutorials/remotedesktopaccess/) (Desktop Cloud Visualization) is a similar remote desktop technology available for certain applications on Frontera.
+
 VMs work well for lightweight, short-running tasks and interactive exploration. A researcher testing a 5-second ground-motion analysis in OpenSees, running a quick MATLAB curve-fitting script, building a finite-element mesh in STKO, or inspecting a geospatial dataset in QGIS can get results without waiting in a queue. For large or parallel computations, HPC is a better fit.
 
 ## HPC at TACC
