@@ -44,6 +44,21 @@ Batch workflows involve submitting a job to a queue and collecting results later
 
 Most research projects use both modes. A typical progression is to develop and test interactively in JupyterHub, then submit production runs as batch jobs to HPC.
 
+## Designing a workflow
+
+A computational workflow should be designed around the research question, not around a specific tool or computing system. A workflow that works for exploratory analysis may fail when scaled to thousands of simulations or extended to include coupled physics and uncertainty quantification.
+
+An effective workflow is modular, with each stage handling a well-defined task.
+
+1. **Input generation** prepares models, parameters, ground motions, or meshes.
+2. **Execution** runs the simulation, ensemble, or training loop.
+3. **Post-processing** extracts results, computes statistics, and generates figures.
+4. **Iteration** repeats execution across parameter sets, Monte Carlo samples, or convergence loops.
+
+When these stages are cleanly separated, each one can be reused across projects, swapped to a different execution environment as computational demands grow, or combined in new ways as the research evolves. A mesh generator can change without touching the solver. A plotting script can be updated without re-running simulations. The execution stage can move from JupyterHub to HPC batch without rewriting the input generation or post-processing steps.
+
+Scalability also needs to be considered from the start. A workflow that runs successfully for one model, one parameter set, and one dataset should be able to scale to hundreds of simulations, higher-resolution models, or more complex coupling. Different workloads scale in different ways. Some (parameter sweeps, Monte Carlo) scale trivially by running many independent jobs. Others (large finite-element models, coupled simulations) are limited by memory per node or inter-process communication. Some benefit from GPUs. Matching the workload to the right execution strategy is as important as choosing the right hardware.
+
 ## Choosing the right environment
 
 | Situation | Environment | Example |
