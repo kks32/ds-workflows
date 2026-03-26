@@ -23,7 +23,6 @@ project:
     - title: Advanced
       children:
         - file: advanced/tapis.md
-        - file: advanced/execution-strategies.md
         - title: Building Apps
           children:
             - file: advanced/app-development/overview.md
