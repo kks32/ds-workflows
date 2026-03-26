@@ -4,7 +4,7 @@
 
 DesignSafe supports the full life cycle of computational research: developing models and scripts, running and monitoring simulations, managing input and output data, and sharing or reproducing results. All of this happens through a browser. The platform handles the details of moving files to the right place, submitting jobs to the right machine, and collecting results when they finish.
 
-This page explains how DesignSafe works and how the pieces fit together. The rest of the guide covers specific tasks: [submitting jobs](job-resources.md), [debugging failures](debugging.md), [debugging HPC jobs](debugging.md), and [parameter sweeps](parameter-sweeps.md).
+This page explains how DesignSafe works and how the pieces fit together. The rest of the guide covers specific tasks: [compute environments](compute-environments.md) (JupyterHub, VMs, HPC systems, queues, and allocations), [storage and file management](storage.md) (storage areas, paths, file staging), [submitting jobs](job-resources.md), [debugging failures](debugging.md), and [parameter sweeps](parameter-sweeps.md).
 
 ## The DesignSafe Portal
 
@@ -36,7 +36,7 @@ DesignSafe provides three places where computation can happen. Each serves a dif
 | Parallel simulation across many cores | HPC with [MPI](https://www.mpi-forum.org/) | Multi-node [OpenFOAM](https://www.openfoam.com/) CFD, ADCIRC with millions of elements |
 | GPU-accelerated work | Jupyter HPC Native (Vista) or GPU queue | ML training, GPU-accelerated simulation |
 
-Most researchers follow a natural progression: develop and test interactively in JupyterHub, then submit production runs as batch jobs to HPC.
+Most researchers follow a natural progression: develop and test interactively in JupyterHub, then submit production runs as batch jobs to HPC. [Compute Environments](compute-environments.md) covers each environment in detail, including node types, queues, and allocations.
 
 ## Data and compute live together
 
@@ -55,7 +55,7 @@ DesignSafe provides several storage areas with different tradeoffs between persi
 
 MyData and MyProjects live on Corral, TACC's backed-up storage. Work and Scratch are fast but not backed up. Always copy important results to MyData or MyProjects when a job finishes.
 
-When a job is submitted, Tapis automatically stages input files to the execution system before the job starts, and archives output back to DesignSafe storage after completion. There is no manual file transfer step. [Running HPC Jobs](job-resources.md) covers the details of storage paths, file staging, and transfer strategies.
+When a job is submitted, Tapis automatically stages input files to the execution system before the job starts, and archives output back to DesignSafe storage after completion. There is no manual file transfer step. [Storage and File Management](storage.md) covers paths across environments, dapi file operations, and transfer strategies in detail.
 
 ## Designing your workflow
 
@@ -87,6 +87,8 @@ Design workflows around the research question, not around a specific tool. A wor
 
 | I want to... | Read |
 |---|---|
+| Understand JupyterHub, HPC systems, queues, and allocations | [Compute Environments](compute-environments.md) |
+| Understand storage areas, paths, and file staging | [Storage and File Management](storage.md) |
 | Submit a job to HPC | [Running HPC Jobs](job-resources.md) |
 | Figure out why my job failed | [Debugging Failed Jobs](debugging.md) |
 | Run a simulation across many cores | [Debugging HPC Jobs](debugging.md) (parallel execution section) |

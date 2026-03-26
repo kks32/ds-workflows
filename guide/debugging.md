@@ -83,6 +83,34 @@ output_file = f"results_rank{rank}.txt"
 
 All ranks on the same node share the same `/tmp` directory, so even temporary files need rank-based naming.
 
+### Using node-local storage for performance
+
+For I/O-intensive jobs, copying data to `/tmp` on the compute node avoids shared-filesystem contention. Each node has its own `/tmp` partition — it is not shared across nodes and is purged at the end of each job.
+
+| System | Node Type | /tmp Size |
+|---|---|---|
+| Stampede3 | SKX | 90 GB |
+| Stampede3 | ICX | 200 GB |
+| Stampede3 | SPR | 150 GB |
+| Stampede3 | PVC / H100 | 3.5 TB |
+| Frontera | CLX | 144 GB |
+| Lonestar6 | All | 288 GB |
+
+```bash
+RANK="${SLURM_PROCID:-0}"
+SCRATCH_DIR="/tmp/${USER}/job_${SLURM_JOB_ID}/rank_${RANK}"
+mkdir -p "${SCRATCH_DIR}"
+
+cp input_${RANK}.dat "${SCRATCH_DIR}/"
+cd "${SCRATCH_DIR}"
+./solver input_${RANK}.dat > output_${RANK}.dat
+
+# Copy results back before the job ends
+cp output_${RANK}.dat "${TAPIS_JOB_WORKDIR}/"
+```
+
+Use the shared filesystem (Work/Scratch) for inputs, final outputs, and checkpoints. Use `/tmp` only for high-frequency scratch I/O and intermediate files.
+
 ### When parallel computing is not needed
 
 Not every workflow benefits from MPI.
