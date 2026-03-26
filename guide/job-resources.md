@@ -6,7 +6,9 @@ This page walks through everything involved in running a simulation on one of TA
 
 A high-performance computing (HPC) system is a cluster of many powerful computers (called **nodes**) connected by a fast network. Each node has dozens of CPU cores and hundreds of gigabytes of memory. By spreading work across many nodes, problems that would take days on a laptop can finish in minutes.
 
-[TACC](https://www.tacc.utexas.edu/) operates several HPC systems that DesignSafe researchers can use: [Stampede3](https://docs.tacc.utexas.edu/hpc/stampede3/), [Frontera](https://docs.tacc.utexas.edu/hpc/frontera/), and [Lonestar6](https://docs.tacc.utexas.edu/hpc/lonestar6/). These are shared systems. Thousands of researchers submit jobs, and a scheduler called [SLURM](https://slurm.schedmd.com/documentation.html) decides which jobs run, when, and on which nodes. Jobs wait in a queue until the requested hardware becomes available.
+[TACC](https://www.tacc.utexas.edu/) operates several HPC systems that DesignSafe researchers can use: [Stampede3](https://docs.tacc.utexas.edu/hpc/stampede3/), [Frontera](https://docs.tacc.utexas.edu/hpc/frontera/), and [Lonestar6](https://docs.tacc.utexas.edu/hpc/lonestar6/).
+
+These are shared systems. Thousands of researchers submit jobs to the same hardware, so a program called [SLURM](https://slurm.schedmd.com/documentation.html) (Simple Linux Utility for Resource Management) manages access. SLURM is a **job scheduler**. When a job is submitted, SLURM puts it in a queue. When the requested nodes become available, SLURM allocates them, launches the application, enforces the time limit, and tracks how many resources were used. Researchers using DesignSafe never interact with SLURM directly. Tapis generates SLURM scripts and submits them automatically. But understanding that a queue exists explains why jobs do not start immediately and why requesting the right amount of resources matters.
 
 ## Two ways to submit a job
 
