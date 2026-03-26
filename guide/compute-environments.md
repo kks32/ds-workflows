@@ -26,16 +26,6 @@ DesignSafe researchers have access to three TACC systems:
 | [Frontera](https://docs.tacc.utexas.edu/hpc/frontera/) | 56 | 192 GB | Large-scale parallel simulations |
 | [Lonestar6](https://docs.tacc.utexas.edu/hpc/lonestar6/) | 128 | 256 GB | General-purpose, GPU nodes available |
 
-### Stampede3 node types
-
-| Node Type | Cores per Node | Memory | Count | Notes |
-|---|---|---|---|---|
-| SKX (Skylake) | 48 | 192 GB DDR4 | 1,060 | Most numerous, good default choice |
-| ICX (Ice Lake) | 80 | 256 GB DDR4 | 224 | Standard compute nodes |
-| SPR (Sapphire Rapids) | 112 | 128 GB HBM2e | 560 | High memory bandwidth |
-| PVC (Ponte Vecchio) | 96 | 512 GB DDR5 | 20 | Intel GPUs for ML workloads |
-| NVDIMM (Large Memory) | 80 | 4 TB | 3 | Memory-intensive workloads |
-
 ### Nodes, cores, and memory
 
 A **node** is a complete physical computer. Each node has multiple **cores** (CPUs) that execute work in parallel, sharing the same pool of RAM.
@@ -56,16 +46,16 @@ SLURM is the job scheduler on all TACC systems. When a job is submitted, SLURM p
 
 **Stampede3 queues** (full policy in the [Stampede3 User Guide](https://docs.tacc.utexas.edu/hpc/stampede3/#queues)):
 
-| Queue | Node Type | Max Nodes | Max Duration | Charge Rate |
-|---|---|---|---|---|
-| skx | SKX (48 cores, 192 GB) | 256 | 48 hrs | 1 SU |
-| skx-dev | SKX | 16 | 2 hrs | 1 SU |
-| icx | ICX (80 cores, 256 GB) | 32 | 48 hrs | 1.5 SUs |
-| spr | SPR (112 cores, 128 GB HBM) | 32 | 48 hrs | 2 SUs |
-| pvc | PVC (GPU) | 4 | 48 hrs | 3 SUs |
-| nvdimm | ICX (80 cores, 4 TB) | 1 | 48 hrs | 4 SUs |
+| Queue | Node Type | Cores | Memory | Max Nodes | Max Duration | Charge Rate |
+|---|---|---|---|---|---|---|
+| skx | SKX (Skylake) | 48 | 192 GB | 256 | 48 hrs | 1 SU |
+| skx-dev | SKX (Skylake) | 48 | 192 GB | 16 | 2 hrs | 1 SU |
+| icx | ICX (Ice Lake) | 80 | 256 GB | 32 | 48 hrs | 1.5 SUs |
+| spr | SPR (Sapphire Rapids) | 112 | 128 GB HBM | 32 | 48 hrs | 2 SUs |
+| pvc | PVC (Ponte Vecchio) | 96 | 512 GB | 4 | 48 hrs | 3 SUs |
+| nvdimm | NVDIMM (Large Memory) | 80 | 4 TB | 1 | 48 hrs | 4 SUs |
 
-The `skx-dev` queue is designed for short test runs with low wait times. Always test there before submitting production jobs.
+SKX nodes are the most numerous (1,060) and a good default. The `skx-dev` queue is designed for short test runs with low wait times. Always test there before submitting production jobs.
 
 **Frontera queues** (56 cores, 192 GB per node; [Frontera User Guide](https://docs.tacc.utexas.edu/hpc/frontera/#queues)):
 
