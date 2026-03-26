@@ -1,8 +1,12 @@
 # Computational Workflows on DesignSafe
 
-[DesignSafe](https://designsafe-ci.org) connects a browser-based workspace to the supercomputers and storage at the [Texas Advanced Computing Center (TACC)](https://www.tacc.utexas.edu/). Research data and compute hardware sit in the same facility. A simulation that takes hours on a laptop can finish in minutes on a cluster, and the input data never has to leave TACC.
+[DesignSafe](https://designsafe-ci.org) brings together the computational power of the [Texas Advanced Computing Center (TACC)](https://www.tacc.utexas.edu/) with cloud-based interfaces, allowing researchers to move between interactive exploration and large-scale, production-level computation. Whether testing a small Python script in a Jupyter notebook or deploying thousands of simulations across [Stampede3](https://docs.tacc.utexas.edu/hpc/stampede3/), the platform scales from one core to tens of thousands.
 
-This page explains how the platform works. The rest of the guide covers specific tasks: [submitting jobs](job-resources.md), [debugging failures](debugging.md), [parallel computing](parallel-computing.md), and [parameter sweeps](parameter-sweeps.md).
+DesignSafe is a workflow system designed to support the full life cycle of computational research: developing models and scripts, running and monitoring simulations, managing input and output data, and sharing or reproducing results. Each of these stages may occur in a different computational environment, accessed through different interfaces, but connected by a common middleware layer that handles execution, authentication, and data transfer.
+
+When a job is launched, the system orchestrates a sequence of actions: the application is packaged, transferred to a compute system, queued by a scheduler, executed across one or more nodes, and finally collected and stored for post-processing. Understanding how jobs flow through these layers helps researchers choose the right tool for a given task, optimize job performance, build automated workflows that scale from prototypes to production, and troubleshoot failures with confidence.
+
+This page covers the platform architecture, compute environments, storage, and workflow design. The rest of the guide covers specific tasks: [submitting jobs](job-resources.md), [debugging failures](debugging.md), [parallel computing](parallel-computing.md), and [parameter sweeps](parameter-sweeps.md).
 
 ## The DesignSafe Portal
 
