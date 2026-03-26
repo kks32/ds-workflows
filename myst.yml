@@ -23,7 +23,7 @@ project:
     - title: Advanced
       children:
         - file: advanced/tapis.md
-        - title: Building Apps
+        - title: Building a Custom App
           children:
             - file: advanced/app-development/overview.md
             - file: advanced/app-development/app-json.md
