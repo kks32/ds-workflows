@@ -16,7 +16,7 @@ Virtual machines (VMs) run interactive GUI applications without a queue wait. [O
 
 ## HPC systems
 
-HPC (High-Performance Computing) systems handle production-scale computation. These are clusters of interconnected machines (**nodes**), each with dozens of CPU cores and hundreds of gigabytes of memory. [SLURM](https://slurm.schedmd.com/documentation.html) manages the job queue. Long-running simulations, multi-core parallel analyses, and parametric sweeps with hundreds of runs all belong on HPC.
+HPC (High-Performance Computing) systems handle production-scale computation. These are clusters of interconnected machines (**nodes**), each with dozens of CPU cores and hundreds of gigabytes of memory. They are shared systems — thousands of researchers submit jobs to the same hardware, so [SLURM](https://slurm.schedmd.com/documentation.html) manages access through job queues. Researchers using DesignSafe never interact with SLURM directly; [Tapis](https://tapis.readthedocs.io/en/latest/) generates SLURM scripts automatically. Long-running simulations, multi-core parallel analyses, and parametric sweeps with hundreds of runs all belong on HPC.
 
 DesignSafe researchers have access to three TACC systems:
 

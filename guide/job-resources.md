@@ -1,14 +1,6 @@
 # Running HPC Jobs
 
-This page walks through everything involved in running a simulation on one of TACC's supercomputers through DesignSafe: what HPC is, how jobs flow through the system, how to submit one, and how to choose the right resources.
-
-## What is HPC?
-
-A high-performance computing (HPC) system is a cluster of many powerful computers (called **nodes**) connected by a fast network. Each node has dozens of CPU cores and hundreds of gigabytes of memory. By spreading work across many nodes, problems that would take days on a laptop can finish in minutes.
-
-[TACC](https://www.tacc.utexas.edu/) operates several HPC systems that DesignSafe researchers can use: [Stampede3](https://docs.tacc.utexas.edu/hpc/stampede3/), [Frontera](https://docs.tacc.utexas.edu/hpc/frontera/), and [Lonestar6](https://docs.tacc.utexas.edu/hpc/lonestar6/).
-
-These are shared systems. Thousands of researchers submit jobs to the same hardware, so a program called [SLURM](https://slurm.schedmd.com/documentation.html) (Simple Linux Utility for Resource Management) manages access. SLURM is a **job scheduler**. When a job is submitted, SLURM puts it in a queue. When the requested nodes become available, SLURM allocates them, launches the application, enforces the time limit, and tracks how many resources were used. Researchers using DesignSafe never interact with SLURM directly. Tapis generates SLURM scripts and submits them automatically. But understanding that a queue exists explains why jobs do not start immediately and why requesting the right amount of resources matters.
+This page walks through submitting a simulation to [TACC](https://www.tacc.utexas.edu/) supercomputers through [DesignSafe](https://designsafe-ci.org): how jobs flow through the system, how to submit one, and how to choose the right resources. For background on HPC systems, nodes, queues, and allocations, see [Compute Environments](compute-environments.md).
 
 ## Two ways to submit a job
 
@@ -124,24 +116,9 @@ The `ds.jobs.generate()` call above produces a Tapis job request. Tapis converts
 
 There is no need to write this script by hand. Tapis generates it automatically from the job request parameters.
 
-## Storage paths and file staging
-
-Storage areas, paths across environments, dapi path translation, and file transfer tips are covered in [Storage and File Management](storage.md). Key points for job submission:
-
-- Use `ds.files.to_uri("/MyData/folder/")` to convert DesignSafe paths to Tapis URIs for the `input_dir_uri` parameter.
-- Bundle many small files into a tar.gz archive before staging — many small files transfer slowly.
-- Keep shared input data in Work to avoid re-staging for every job submission.
-- Avoid running production jobs directly against MyData (Corral); use Work or Scratch for better I/O performance.
-
-## Node types, queues, and allocations
-
-Stampede3 node types, queue specifications for all three TACC systems, and allocation billing are covered in [Compute Environments](compute-environments.md). Key points for job submission:
-
-- Use the `skx-dev` or `development` queue for testing before production runs.
-- Total cores = `node_count` x `cores_per_node`. Match this to the model's decomposition for MPI jobs.
-- Nodes are billed entirely regardless of how many cores are used. Every job incurs a minimum charge of 15 minutes.
-
 ## Resource sizing guidance
+
+For storage paths, file staging, and transfer tips, see [Storage and File Management](storage.md). For node types, queue specifications, and allocation billing, see [Compute Environments](compute-environments.md).
 
 **Start small.** Run the model in the development queue with a short walltime and a single node. A 10-minute test on `skx-dev` costs almost nothing and catches most configuration errors before they waste hours of allocation time.
 
@@ -149,10 +126,4 @@ Stampede3 node types, queue specifications for all three TACC systems, and alloc
 
 **Match cores to the problem.** For [MPI](https://www.mpi-forum.org/) jobs, total ranks = node_count x cores_per_node. If a model is decomposed into 96 subdomains, request 2 nodes with 48 cores each. For serial jobs or [PyLauncher](https://github.com/TACC/pylauncher) sweeps, one node is usually enough.
 
-**Watch memory per core.** All cores on a node share the same RAM. If each MPI process needs 8 GB and the node has 192 GB, running all 48 cores gives only about 4 GB per process. Requesting fewer cores per node gives each process more memory.
-
-| Cores per Node (192 GB SKX) | Memory per Core |
-|---|---|
-| 48 | ~4 GB |
-| 24 | 8 GB |
-| 12 | 16 GB |
+**Watch memory per core.** All cores on a node share the same RAM. If each MPI process needs 8 GB and the node has 192 GB, running all 48 cores gives only about 4 GB per process. Requesting fewer cores per node gives each process more memory. See the [memory-per-core table](compute-environments.md#nodes-cores-and-memory) for specifics.

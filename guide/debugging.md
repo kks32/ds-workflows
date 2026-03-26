@@ -150,7 +150,7 @@ A job that stays in QUEUED for a long time is not broken. It is waiting for SLUR
 
 - The system is busy. Check the [TACC system status page](https://tacc.utexas.edu/portal/system-status/Stampede3) for current load.
 - The job requested many nodes or a long walltime. Smaller requests fit into scheduling gaps more easily.
-- The queue has a per-user job limit. Check the queue tables in [Running HPC Jobs](job-resources.md).
+- The queue has a per-user job limit. Check the queue tables in [Compute Environments](compute-environments.md#slurm-and-queues).
 
 To reduce wait time, try the development queue (`skx-dev`) for test runs, request fewer nodes, or request a shorter walltime.
 

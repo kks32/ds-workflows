@@ -22,7 +22,7 @@ DesignSafe provides three places where computation can happen. Each serves a dif
 
 **Virtual machines** run applications that need an interactive session without a queue wait. [OpenSees](https://opensees.berkeley.edu/) Interactive, [MATLAB](https://www.mathworks.com/products/matlab.html), [ADCIRC](https://adcirc.org/) Interactive, [STKO](https://asdeasoft.net/stko/), and [QGIS](https://qgis.org/) all run on shared VMs at TACC. STKO and QGIS provide a full graphical desktop through [NICE DCV](https://docs.tacc.utexas.edu/tutorials/remotedesktopaccess/), which streams a remote desktop to the browser. VMs share hardware across users, so they work best for lightweight tasks and quick tests.
 
-**HPC systems** handle production-scale computation. Stampede3, [Frontera](https://docs.tacc.utexas.edu/hpc/frontera/), and [Lonestar6](https://docs.tacc.utexas.edu/hpc/lonestar6/) are clusters of interconnected machines (nodes), each with dozens of CPU cores and hundreds of gigabytes of memory. Jobs can span multiple nodes. SLURM manages the queue. Long-running simulations, multi-core parallel analyses, and parametric sweeps with hundreds of runs all belong on HPC. Even when launched through the portal's graphical forms, HPC jobs are batch jobs that run unattended.
+**HPC systems** handle production-scale computation. Stampede3, [Frontera](https://docs.tacc.utexas.edu/hpc/frontera/), and [Lonestar6](https://docs.tacc.utexas.edu/hpc/lonestar6/) are clusters of interconnected machines (nodes), each with dozens of CPU cores and hundreds of gigabytes of memory. Jobs can span multiple nodes using [MPI](https://www.mpi-forum.org/) (Message Passing Interface), a standard that lets parallel processes on different nodes exchange data during execution. SLURM manages the queue. Long-running simulations, multi-core parallel analyses, and parametric sweeps with hundreds of runs all belong on HPC. Even when launched through the portal's graphical forms, HPC jobs are batch jobs that run unattended.
 
 ### Which environment for what
 
@@ -72,16 +72,20 @@ A typical workflow has four stages.
 
 When these stages are separate, each can be reused across projects or swapped to a different environment. A mesh generator can change without touching the solver. The execution stage can move from JupyterHub to HPC without rewriting the post-processing code. The [Data Depot](https://designsafe-ci.org/user-guide/datadepot/) ties the stages together by providing shared storage that is accessible from every environment.
 
-Design workflows around the research question, not around a specific tool. A workflow that runs one model today should be able to scale to hundreds of runs tomorrow. Different workloads scale differently, and the right strategy depends on the problem.
+Design workflows around the research question, not around a specific tool. A workflow that runs one model today should be able to scale to hundreds of runs tomorrow. Different workloads scale differently, and the right strategy depends on the problem. Most HPC workloads on DesignSafe fall into one of two patterns:
+
+**Embarrassingly parallel (parametric sweeps).** Many independent runs that do not communicate with each other. Each run gets its own inputs, produces its own outputs, and can succeed or fail without affecting the others. A fragility study running the same OpenSeesPy model across 500 ground-motion records is a classic example. Use [PyLauncher](https://github.com/TACC/pylauncher) to dispatch all tasks inside a single SLURM allocation. See [Parameter Sweeps](parameter-sweeps.md).
+
+**Tightly coupled parallel (MPI).** One large model split across many cores that must communicate during execution. Each core (rank) works on a different part of the problem and exchanges data with its neighbors through [MPI](https://www.mpi-forum.org/). A multi-node OpenFOAM simulation, ADCIRC storm surge model, or OpenSees MP domain-decomposed analysis all fall here. See [Debugging HPC Jobs](debugging.md) for MPI details.
+
+These are not the only patterns — some workloads are memory-bound, GPU-accelerated, or combine both approaches — but the distinction between "many independent runs" and "one big coupled run" drives most decisions about nodes, cores, and which application to use.
 
 | Workload pattern | How it scales | Example |
 |---|---|---|
 | Many independent runs | Add more tasks to a single allocation (PyLauncher) | Fragility study with 500 ground-motion records |
-| One large model | Divide the domain across cores with [MPI](https://www.mpi-forum.org/) | 3D nonlinear structural analysis, ADCIRC storm surge |
+| One large model | Divide the domain across cores with MPI | 3D nonlinear structural analysis, ADCIRC storm surge |
 | Memory-bound analysis | Use nodes with more RAM or fewer cores per node | Large stiffness matrix assembly |
 | GPU-accelerated work | Use GPU queues on Stampede3 or Lonestar6 | ML training, dense linear algebra |
-
-[Debugging HPC Jobs](debugging.md) covers parallel execution in detail, and [Parameter Sweeps](parameter-sweeps.md) covers running many independent simulations.
 
 ## Where to go next
 
