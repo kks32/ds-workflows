@@ -1,5 +1,15 @@
 # Running HPC Jobs
 
+## How a job gets from you to the supercomputer
+
+Three layers connect a researcher's browser to TACC hardware.
+
+**Interface layer.** The researcher works in the [portal](https://www.designsafe-ci.org/rw/workspace/) or a [JupyterHub](https://jupyter.designsafe-ci.org) notebook. The portal launches tools, submits jobs, and manages data through a browser. JupyterHub provides an interactive Python/R environment for writing code, testing models, and submitting jobs programmatically through [dapi](https://designsafe-ci.github.io/dapi/).
+
+**Middleware layer.** [Tapis](https://tapis.readthedocs.io/en/latest/) sits between the interface and TACC hardware. When a job is submitted, Tapis copies input files to the execution system, generates a scheduler script, submits it, monitors execution, and copies results back. The researcher never writes scheduler scripts or transfers files manually.
+
+**Execution layer.** [SLURM](https://slurm.schedmd.com/documentation.html) is the job scheduler on all TACC systems. It manages a queue, allocates hardware fairly across thousands of researchers, enforces time limits, and tracks resource usage. Every DesignSafe job that runs on HPC is a SLURM job, whether submitted through the portal, dapi, or direct SSH.
+
 ## How a job moves through the system
 
 <img src="../images/ComputeWorkflow.jpg" alt="DesignSafe HPC computational workflow" width="75%" />

@@ -12,21 +12,11 @@ Everything starts at the [DesignSafe web portal](https://www.designsafe-ci.org/r
 
 Researchers can also bypass the portal and submit jobs programmatically from a Jupyter notebook using [dapi](https://designsafe-ci.github.io/dapi/). This is the preferred approach for automated pipelines, parameter sweeps, and reproducible workflows.
 
-## How a job gets from you to the supercomputer
-
-Three layers connect a researcher's browser to TACC hardware.
-
-<img src="../images/compute-environments.svg" alt="DesignSafe compute environments overview" width="100%" />
-
-**Interface layer.** The researcher works in the portal or a JupyterHub notebook. The portal launches tools, submits jobs, and manages data through a browser. JupyterHub provides an interactive Python/R environment for writing code, testing models, and submitting jobs programmatically through dapi.
-
-**Middleware layer.** [Tapis](https://tapis.readthedocs.io/en/latest/) sits between the interface and TACC hardware. When a job is submitted, Tapis copies input files to the execution system, generates a scheduler script, submits it, monitors execution, and copies results back. The researcher never writes scheduler scripts or transfers files manually.
-
-**Execution layer.** [SLURM](https://slurm.schedmd.com/documentation.html) is the job scheduler on all TACC systems. It manages a queue, allocates hardware fairly across thousands of researchers, enforces time limits, and tracks resource usage. Every DesignSafe job that runs on HPC is a SLURM job, whether submitted through the portal, dapi, or direct SSH.
-
 ## Three compute environments
 
 DesignSafe provides three places where computation can happen. Each serves a different purpose.
+
+<img src="../images/compute-environments.svg" alt="DesignSafe compute environments overview" width="100%" />
 
 **JupyterHub** is where most day-to-day work happens. Each session gets a dedicated container (up to 8 CPU cores, 20 GB RAM) that starts immediately with no queue wait. Researchers write code, test models, visualize results, and submit HPC jobs from here. For heavier interactive work, Jupyter HPC Native sessions run directly on [Stampede3](https://docs.tacc.utexas.edu/hpc/stampede3/) or Vista GPU nodes with full node resources, though these go through the SLURM queue.
 
