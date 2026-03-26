@@ -1,6 +1,6 @@
 # Debugging Failed Jobs
 
-A job finished with status FAILED. Or it has been stuck in QUEUED for hours. Or it completed but the results look wrong. The first step is always the same. Check the job state to find where things went off track, then read the log files for the actual error message.
+A job finished with status FAILED. Or it has been stuck in QUEUED for hours. Or it completed but the results look wrong. This page walks through how to diagnose and fix these problems.
 
 ## Checking Job State
 
@@ -29,6 +29,16 @@ job.monitor()
 
 The `monitor()` method polls the Tapis API at intervals and prints each state change until the job reaches a terminal state (FINISHED, FAILED, or CANCELLED).
 
+### Job stuck in QUEUED
+
+A job that stays in QUEUED for a long time is not broken. It is waiting for SLURM to allocate the requested hardware. Common reasons for long waits:
+
+- The system is busy. Check the [TACC system status page](https://tacc.utexas.edu/portal/system-status/Stampede3) for current load.
+- The job requested many nodes or a long walltime. Smaller requests fit into scheduling gaps more easily.
+- The queue has a per-user job limit. Check the queue tables in [Running HPC Jobs](job-resources.md).
+
+To reduce wait time, try the development queue (`skx-dev`) for test runs, request fewer nodes, or request a shorter walltime.
+
 ## Reading the Output Files
 
 Every job produces two log files that contain the information needed to diagnose problems.
@@ -42,7 +52,11 @@ Every job produces two log files that contain the information needed to diagnose
 | `tapisjob.out` | Progress messages, printed results, completion indicators |
 | `tapisjob.err` | Syntax errors, missing files, failed module loads, MPI problems, permission errors |
 
-Both files are archived with the job outputs. They can be viewed in JupyterHub or the Data Depot from the Job Status page.
+Both files are archived with the job outputs. There are several ways to view them:
+
+- **JupyterHub.** Navigate to the archive directory shown in the job output. The files are plain text and can be opened directly in JupyterHub's file browser or read with Python (`open("tapisjob.err").read()`).
+- **Data Depot.** Go to the Job Status page in the DesignSafe portal, find the job, and browse its output files.
+- **dapi.** Use `job.list_outputs()` to see archived files, then `job.get_output_content("tapisjob.err")` to read them programmatically.
 
 An empty `.out` file usually means the script failed before producing any output. The error that caused the early failure will appear in `.err`. Always check `.err` even when the job produced output, because it may reveal warnings or silent failures that did not stop execution.
 
@@ -78,10 +92,31 @@ Module not available. If `.err` shows `Lmod has detected the following error: Th
 A lost notebook session or a switch to a different machine does not mean losing track of a job. Reconnect using the job UUID.
 
 ```python
-from dapi import SubmittedJob
+from dapi import DSClient
 
-job = SubmittedJob(ds._tapis, "your-job-uuid-here")
+ds = DSClient()
+job = ds.jobs.get("your-job-uuid-here")
 job.get_status()
 ```
 
-The job UUID appears in the output from the original submission and on the [DesignSafe](https://designsafe-ci.org) Job Status page.
+The job UUID appears in the output from the original `ds.jobs.submit()` call and on the DesignSafe Job Status page in the portal.
+
+## Quick Debugging Workflow
+
+When a job fails, work through these steps:
+
+```python
+# 1. Check the final state
+job.get_status()
+
+# 2. List the output files
+job.list_outputs()
+
+# 3. Read the error log
+print(job.get_output_content("tapisjob.err"))
+
+# 4. Read the output log
+print(job.get_output_content("tapisjob.out"))
+```
+
+Most problems become clear from the error log. If not, work through the [Troubleshooting Checklist](#troubleshooting-checklist) above.

@@ -20,7 +20,40 @@ On [TACC](https://www.tacc.utexas.edu/) systems, MPI is the default model for pa
 | Agnostic App | Serial (no MPI) | General-purpose Python, OpenSeesPy, PyLauncher |
 | [MATLAB](https://www.mathworks.com/products/matlab.html) | Serial (no MPI) | Data analysis and algorithms |
 
-Researchers using MPI applications do not write MPI code themselves. The application handles the parallelism internally. The researcher's role is to request the right number of nodes and cores and ensure the model is set up for the intended number of parallel processes. If an [OpenSees](https://opensees.berkeley.edu/) MP model is partitioned into 96 subdomains, the job should request 96 total cores (for example, 2 nodes x 48 cores).
+Researchers using MPI applications do not write MPI code themselves. The application handles the parallelism internally. The researcher's role is to request the right number of nodes and cores and ensure the model is set up for the intended number of parallel processes.
+
+## Submitting a parallel job
+
+A parallel job looks the same as any other dapi submission, with `node_count` and `cores_per_node` set to match the problem. Here is an [OpenSees](https://opensees.berkeley.edu/) MP example that runs a structural model across 96 cores (2 nodes, 48 cores each):
+
+```python
+from dapi import DSClient
+
+ds = DSClient()
+input_uri = ds.files.to_uri("/MyData/opensees/bridge-model/")
+
+job_request = ds.jobs.generate(
+    app_id="opensees-mp-s3",
+    input_dir_uri=input_uri,
+    script_filename="analysis.tcl",
+    node_count=2,
+    cores_per_node=48,
+    max_minutes=120,
+    allocation="your_allocation",
+    queue="skx",
+)
+
+job = ds.jobs.submit(job_request)
+job.monitor()
+```
+
+This produces 96 MPI ranks (2 x 48). The OpenSees model must be set up for 96 parallel processes. If the number of ranks does not match the model's domain decomposition, the simulation will either fail or produce incorrect results.
+
+| dapi parameter | Effect on MPI |
+|---|---|
+| `node_count` | Number of physical machines |
+| `cores_per_node` | MPI ranks per machine |
+| Total ranks | node_count x cores_per_node (must match the model's decomposition) |
 
 ## Ranks
 
