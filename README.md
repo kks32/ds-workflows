@@ -4,38 +4,17 @@
 [![DesignSafe](https://img.shields.io/badge/DesignSafe-CI-blue)](https://designsafe-ci.org)
 [![Authors](https://img.shields.io/badge/Authors-DesignSafe--CI-orange)](AUTHORS.md)
 
-A guide to running computational workflows on [DesignSafe](https://designsafe-ci.org) using [dapi](https://designsafe-ci.github.io/dapi/), [Tapis](https://tapis.readthedocs.io/en/latest/), and [TACC](https://www.tacc.utexas.edu/) high-performance computing systems.
+A guide to running computational workflows on [DesignSafe](https://designsafe-ci.org), from interactive exploration in a Jupyter notebook to production-scale simulations on [TACC](https://www.tacc.utexas.edu/) supercomputers.
 
-## What this covers
+## What this guide covers
 
-- **How it works** including the portal, compute environments (JupyterHub, VMs, HPC), storage systems, and workflow design
-- **Running HPC jobs** with dapi, including resource selection, queues, and allocations
-- **Debugging** failed jobs using Tapis job states and SLURM output files
-- **Parallel computing** with MPI for multi-node simulations
-- **Parameter sweeps** with PyLauncher for high-throughput studies
-- **DesignSafe applications** catalog with 45+ tools across simulation, analysis, visualization, GIS, and hazard data
-- **Advanced topics** including Tapis internals, execution strategies, and custom app development
-
-## Quick start
-
-```python
-from dapi import DSClient
-
-ds = DSClient()
-
-job_request = ds.jobs.generate(
-    app_id="opensees-mp-s3",
-    input_dir_uri="/MyData/analysis/input/",
-    script_filename="model.tcl",
-    max_minutes=60,
-    allocation="your_allocation",
-)
-
-job = ds.jobs.submit(job_request)
-job.monitor()
-```
-
-For dapi installation, authentication, and API reference, see the [dapi documentation](https://designsafe-ci.github.io/dapi/).
+- **[How It Works](guide/how-it-works.md)** The DesignSafe portal, three compute environments (JupyterHub, Virtual Machines, HPC), storage, and how to design a workflow around your research
+- **[Running HPC Jobs](guide/job-resources.md)** How jobs flow from submission to results, resource parameters, node types, queues, allocations, and file staging
+- **[Debugging Failed Jobs](guide/debugging.md)** Job states, reading output files, troubleshooting checklist, and common failure patterns
+- **[Parallel Computing](guide/parallel-computing.md)** MPI concepts, ranks, and when parallel computing is (and is not) needed
+- **[Parameter Sweeps](guide/parameter-sweeps.md)** Running hundreds of independent simulations with PyLauncher
+- **[DesignSafe Applications](apps/overview.md)** Catalog of 45+ tools for simulation, analysis, visualization, GIS, and hazard data
+- **[Advanced Topics](advanced/tapis.md)** Tapis internals, execution strategies, custom app development
 
 ## Building locally
 
