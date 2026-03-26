@@ -59,25 +59,29 @@ When a job is submitted, Tapis automatically stages input files to the execution
 
 ## Designing your workflow
 
-A workflow should be designed around the research question, not around a specific tool. The most effective approach is to keep each stage modular.
+A computational workflow is the sequence of steps that takes a research question from raw inputs to published results. It includes preparing input files, running simulations, analyzing the output, and often repeating the process with different parameters. On a laptop, these steps might all happen in a single folder. On DesignSafe, they may span multiple environments, but the platform is designed so the pieces connect.
 
-1. **Input generation** prepares models, parameters, ground motions, or meshes.
-2. **Execution** runs the simulation, ensemble, or training loop.
-3. **Post-processing** extracts results, computes statistics, and generates figures.
-4. **Iteration** repeats execution across parameter sets, Monte Carlo samples, or convergence loops.
+A typical workflow has four stages.
 
-When these stages are separate, each can be reused across projects, swapped to a different environment, or combined in new ways. A mesh generator can change without touching the solver. The execution stage can move from JupyterHub to HPC without rewriting the post-processing code.
+| Stage | What happens | Where on DesignSafe |
+|---|---|---|
+| **Input generation** | Prepare models, parameters, ground motions, or meshes | JupyterHub (Python scripts, notebooks) or STKO (GUI mesh builder) |
+| **Execution** | Run the simulation, ensemble, or training loop | HPC batch job (single run or [PyLauncher](https://github.com/TACC/pylauncher) sweep), or VM for quick tests |
+| **Post-processing** | Extract results, compute statistics, generate figures | JupyterHub (pandas, matplotlib, custom scripts) |
+| **Iteration** | Repeat with new parameters, Monte Carlo samples, or refined models | dapi from JupyterHub (programmatic resubmission) |
 
-Scalability follows from this structure. But different workloads scale differently, and the right strategy depends on the problem.
+When these stages are separate, each can be reused across projects or swapped to a different environment. A mesh generator can change without touching the solver. The execution stage can move from JupyterHub to HPC without rewriting the post-processing code. The [Data Depot](https://designsafe-ci.org/user-guide/datadepot/) ties the stages together by providing shared storage that is accessible from every environment.
+
+Design workflows around the research question, not around a specific tool. A workflow that runs one model today should be able to scale to hundreds of runs tomorrow. Different workloads scale differently, and the right strategy depends on the problem.
 
 | Workload pattern | How it scales | Example |
 |---|---|---|
-| Many independent runs | Add more tasks to a single allocation ([PyLauncher](https://github.com/TACC/pylauncher)) | Fragility study with 500 ground-motion records |
-| One large model | Divide the domain across cores with MPI | 3D nonlinear structural analysis, ADCIRC storm surge |
+| Many independent runs | Add more tasks to a single allocation (PyLauncher) | Fragility study with 500 ground-motion records |
+| One large model | Divide the domain across cores with [MPI](https://www.mpi-forum.org/) | 3D nonlinear structural analysis, ADCIRC storm surge |
 | Memory-bound analysis | Use nodes with more RAM or fewer cores per node | Large stiffness matrix assembly |
 | GPU-accelerated work | Use GPU queues on Stampede3 or Lonestar6 | ML training, dense linear algebra |
 
-Matching the workload to the right strategy matters more than choosing the biggest machine. [Parallel Computing](parallel-computing.md) and [Parameter Sweeps](parameter-sweeps.md) cover these scaling strategies in detail.
+[Parallel Computing](parallel-computing.md) and [Parameter Sweeps](parameter-sweeps.md) cover these scaling strategies in detail.
 
 ## Where to go next
 
