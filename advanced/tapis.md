@@ -37,6 +37,8 @@ job_request = ds.jobs.generate(
 
 ## Inside a Tapis App
 
+<img src="../images/tapis-app-structure.svg" alt="Anatomy of a Tapis App" width="100%" />
+
 Every Tapis App is built from four components.
 
 ### 1. app.json (the definition)

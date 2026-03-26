@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 520" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <rect width="960" height="520" fill="white"/>
+
+  <!-- Title -->
+  <text x="480" y="28" text-anchor="middle" font-size="16" font-weight="600" fill="#222">Anatomy of a Tapis App</text>
+
+  <!-- ==================== TAPIS APP (top) ==================== -->
+  <rect x="340" y="48" width="280" height="40" rx="20" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1"/>
+  <text x="480" y="73" text-anchor="middle" font-size="12" font-weight="500" fill="#475569">Tapis App (Registered)</text>
+
+  <!-- Lines from top to three boxes -->
+  <line x1="400" y1="88" x2="160" y2="130" stroke="#cbd5e1" stroke-width="1"/>
+  <line x1="480" y1="88" x2="480" y2="130" stroke="#cbd5e1" stroke-width="1"/>
+  <line x1="560" y1="88" x2="800" y2="130" stroke="#cbd5e1" stroke-width="1"/>
+
+  <!-- ==================== APP.JSON ==================== -->
+  <rect x="30" y="130" width="260" height="160" rx="6" fill="white" stroke="#93c5fd" stroke-width="1"/>
+  <rect x="30" y="130" width="260" height="32" rx="6" fill="#dbeafe"/>
+  <rect x="30" y="150" width="260" height="12" fill="#dbeafe"/>
+  <text x="160" y="152" text-anchor="middle" font-size="12" font-weight="600" fill="#1e40af">app.json</text>
+  <text x="160" y="168" text-anchor="middle" font-size="9" fill="#64748b">App Definition</text>
+
+  <text x="48" y="194" font-size="10" fill="#334155">App ID, version, description</text>
+  <text x="48" y="210" font-size="10" fill="#334155">Execution system (e.g., stampede3)</text>
+  <text x="48" y="226" font-size="10" fill="#334155">Runtime type (ZIP or container)</text>
+  <text x="48" y="242" font-size="10" fill="#334155">Resource defaults (nodes, cores, time)</text>
+  <text x="48" y="258" font-size="10" fill="#334155">Input definitions and parameters</text>
+  <text x="48" y="274" font-size="10" fill="#334155">Archive and output settings</text>
+
+  <!-- ==================== SCHEDULER PROFILE ==================== -->
+  <rect x="350" y="130" width="260" height="160" rx="6" fill="white" stroke="#d8b4fe" stroke-width="1"/>
+  <rect x="350" y="130" width="260" height="32" rx="6" fill="#f3e8ff"/>
+  <rect x="350" y="150" width="260" height="12" fill="#f3e8ff"/>
+  <text x="480" y="152" text-anchor="middle" font-size="12" font-weight="600" fill="#7c3aed">Scheduler Profile</text>
+  <text x="480" y="168" text-anchor="middle" font-size="9" fill="#64748b">System Environment Init</text>
+
+  <text x="368" y="194" font-size="10" fill="#334155">Base environment (clean or preloaded)</text>
+  <text x="368" y="210" font-size="10" fill="#334155">Module system availability</text>
+  <text x="368" y="226" font-size="10" fill="#334155">Default compiler / MPI setup</text>
+  <text x="368" y="242" font-size="10" fill="#334155">SLURM launch configuration</text>
+  <text x="368" y="268" font-size="10" fill="#94a3b8" font-style="italic">Most apps use: tacc-no-modules</text>
+  <text x="368" y="282" font-size="10" fill="#94a3b8" font-style="italic">(clean slate, wrapper controls all)</text>
+
+  <!-- ==================== ZIP PACKAGE ==================== -->
+  <rect x="670" y="130" width="260" height="160" rx="6" fill="white" stroke="#6ee7b7" stroke-width="1"/>
+  <rect x="670" y="130" width="260" height="32" rx="6" fill="#d1fae5"/>
+  <rect x="670" y="150" width="260" height="12" fill="#d1fae5"/>
+  <text x="800" y="152" text-anchor="middle" font-size="12" font-weight="600" fill="#065f46">ZIP Package</text>
+  <text x="800" y="168" text-anchor="middle" font-size="9" fill="#64748b">Runtime Code</text>
+
+  <text x="688" y="194" font-size="10.5" font-weight="500" fill="#334155">tapisjob_app.sh</text>
+  <text x="688" y="210" font-size="10" fill="#64748b">  Module loads, env vars,</text>
+  <text x="688" y="226" font-size="10" fill="#64748b">  launch command (ibrun, python3)</text>
+  <text x="688" y="248" font-size="10.5" font-weight="500" fill="#334155">Supporting files (optional)</text>
+  <text x="688" y="264" font-size="10" fill="#64748b">  Helper scripts, config files</text>
+  <text x="688" y="280" font-size="10" fill="#64748b">  README.md</text>
+
+  <!-- ==================== INPUT DIRECTORY ==================== -->
+  <rect x="30" y="320" width="900" height="52" rx="6" fill="#fffbeb" stroke="#fcd34d" stroke-width="1"/>
+  <ellipse cx="58" cy="340" rx="8" ry="4" fill="none" stroke="#92400e" stroke-width="1"/>
+  <line x1="50" y1="340" x2="50" y2="350" stroke="#92400e" stroke-width="1"/>
+  <line x1="66" y1="340" x2="66" y2="350" stroke="#92400e" stroke-width="1"/>
+  <ellipse cx="58" cy="350" rx="8" ry="4" fill="none" stroke="#92400e" stroke-width="1"/>
+  <text x="78" y="341" font-size="12" font-weight="600" fill="#92400e">Input Directory</text>
+  <text x="78" y="358" font-size="10" fill="#a16207">User-provided: simulation scripts, models, ground motions, meshes, data files</text>
+  <text x="578" y="341" font-size="10" fill="#94a3b8">Staged by Tapis from DesignSafe storage to the compute node</text>
+
+  <!-- Connection lines to input dir -->
+  <line x1="160" y1="290" x2="160" y2="320" stroke="#fcd34d" stroke-width="1" stroke-dasharray="4,3"/>
+  <line x1="480" y1="290" x2="480" y2="320" stroke="#fcd34d" stroke-width="1" stroke-dasharray="4,3"/>
+  <line x1="800" y1="290" x2="800" y2="320" stroke="#fcd34d" stroke-width="1" stroke-dasharray="4,3"/>
+
+  <!-- ==================== RUNTIME FLOW ==================== -->
+  <text x="480" y="408" text-anchor="middle" font-size="12" font-weight="600" fill="#475569">Runtime Flow</text>
+
+  <!-- Flow boxes -->
+  <rect x="30" y="424" width="140" height="44" rx="6" fill="#dbeafe" stroke="#93c5fd" stroke-width="1"/>
+  <text x="100" y="443" text-anchor="middle" font-size="10" font-weight="500" fill="#1e40af">Job Submitted</text>
+  <text x="100" y="457" text-anchor="middle" font-size="9" fill="#64748b">dapi or portal</text>
+
+  <!-- Arrow -->
+  <line x1="170" y1="446" x2="205" y2="446" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrowhead)"/>
+
+  <rect x="205" y="424" width="140" height="44" rx="6" fill="#f3e8ff" stroke="#d8b4fe" stroke-width="1"/>
+  <text x="275" y="443" text-anchor="middle" font-size="10" font-weight="500" fill="#7c3aed">Tapis Stages</text>
+  <text x="275" y="457" text-anchor="middle" font-size="9" fill="#64748b">Copies inputs + ZIP</text>
+
+  <line x1="345" y1="446" x2="380" y2="446" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrowhead)"/>
+
+  <rect x="380" y="424" width="140" height="44" rx="6" fill="#f3e8ff" stroke="#d8b4fe" stroke-width="1"/>
+  <text x="450" y="443" text-anchor="middle" font-size="10" font-weight="500" fill="#7c3aed">Unpack ZIP</text>
+  <text x="450" y="457" text-anchor="middle" font-size="9" fill="#64748b">Extract wrapper script</text>
+
+  <line x1="520" y1="446" x2="555" y2="446" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrowhead)"/>
+
+  <rect x="555" y="424" width="160" height="44" rx="6" fill="#d1fae5" stroke="#6ee7b7" stroke-width="1"/>
+  <text x="635" y="443" text-anchor="middle" font-size="10" font-weight="500" fill="#065f46">Run Wrapper</text>
+  <text x="635" y="457" text-anchor="middle" font-size="9" fill="#64748b">tapisjob_app.sh executes</text>
+
+  <line x1="715" y1="446" x2="750" y2="446" stroke="#94a3b8" stroke-width="1" marker-end="url(#arrowhead)"/>
+
+  <rect x="750" y="424" width="180" height="44" rx="6" fill="#fffbeb" stroke="#fcd34d" stroke-width="1"/>
+  <text x="840" y="443" text-anchor="middle" font-size="10" font-weight="500" fill="#92400e">Archive Results</text>
+  <text x="840" y="457" text-anchor="middle" font-size="9" fill="#64748b">Tapis copies output back</text>
+
+  <!-- Arrowhead marker -->
+  <defs>
+    <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <polygon points="0 0, 8 3, 0 6" fill="#94a3b8"/>
+    </marker>
+  </defs>
+
+  <!-- Labels under flow -->
+  <text x="480" y="498" text-anchor="middle" font-size="9" fill="#94a3b8">app.json defines what to run · Tapis handles staging and scheduling · Wrapper script controls the science</text>
+</svg>
