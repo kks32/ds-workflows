@@ -124,41 +124,7 @@ Tapis stages this directory to the job working directory before execution, and t
 
 ## Runtime Sequence Overview
 
-```
-app.json -> job submission -> Tapis validates job -> input staging -> unpack ZIP
--> execute wrapper script -> executes main program (launch user code) -> archive outputs
-
-
-                      +------------------------+
-                      |      Tapis App         |
-                      |      (Registered)      |
-                      +----------+-------------+
-                                 |
-          +----------------------+------------------------+
-          |                      |                        |
-   +------v-------+      +------v--------+      +--------v---------+
-   |   app.json   |      | Scheduler     |      |  ZIP Package     |
-   | (definition) |      |   Profile     |      |  (runtime image) |
-   +--------------+      | (system init) |      +------+-----------+
-          |              +------+---------+          +--+-----------+
-          |                     |                    | tapisjob_app.sh
-          |                     |                    | + README.md    |
-          |                     |                    +----+----------+
-          |                     |                         |
-          v                     v                         v
-  Defines inputs,     Loads system-level        Actual runtime logic:
-  parameters, queue,  environment rules.        modules, pip, OpenSeesPy,
-  environment, ZIP.                             launches the user script.
-
-          +-------------------------------------------------------------+
-          |                     Input Directory                          |
-          | (user-provided scripts, models, data, ZIPs, req files)      |
-          +-------------------------------------------------------------+
-
-                              Runtime Flow
-                              -----------
-              app.json -> Tapis -> unpack ZIP -> run wrapper -> run script
-```
+![Anatomy of a Tapis App](../../images/tapis-app-structure.svg)
 
 # Custom Tapis Apps
 
