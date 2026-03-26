@@ -2,11 +2,9 @@
 
 [DesignSafe](https://designsafe-ci.org) brings together the computational power of the [Texas Advanced Computing Center (TACC)](https://www.tacc.utexas.edu/) with cloud-based interfaces, allowing researchers to move between interactive exploration and large-scale, production-level computation. Whether testing a small Python script in a Jupyter notebook or deploying thousands of simulations across TACC HPC systems, the platform scales from one core to tens of thousands.
 
-DesignSafe supports the full life cycle of computational research: developing models and scripts, running and monitoring simulations, managing input and output data, and sharing or reproducing results. Each of these stages may occur in a different computational environment, accessed through different interfaces, but connected by a common middleware layer that handles execution, authentication, and data transfer.
+DesignSafe supports the full life cycle of computational research: developing models and scripts, running and monitoring simulations, managing input and output data, and sharing or reproducing results. All of this happens through a browser. The platform handles the details of moving files to the right place, submitting jobs to the right machine, and collecting results when they finish.
 
-When a job is launched, the system orchestrates a sequence of actions: the application is packaged, transferred to a compute system, queued by a scheduler, executed across one or more nodes, and finally collected and stored for post-processing. Understanding how jobs flow through these layers helps researchers choose the right tool for a given task, optimize job performance, build automated workflows that scale from prototypes to production, and troubleshoot failures with confidence.
-
-This page covers the platform architecture, compute environments, storage, and workflow design. The rest of the guide covers specific tasks: [submitting jobs](job-resources.md), [debugging failures](debugging.md), [parallel computing](parallel-computing.md), and [parameter sweeps](parameter-sweeps.md).
+This page explains how DesignSafe works and how the pieces fit together. The rest of the guide covers specific tasks: [submitting jobs](job-resources.md), [debugging failures](debugging.md), [parallel computing](parallel-computing.md), and [parameter sweeps](parameter-sweeps.md).
 
 ## The DesignSafe Portal
 
