@@ -4,7 +4,7 @@
 
 DesignSafe supports the full life cycle of computational research: developing models and scripts, running and monitoring simulations, managing input and output data, and sharing or reproducing results. All of this happens through a browser. The platform handles the details of moving files to the right place, submitting jobs to the right machine, and collecting results when they finish.
 
-This page explains how DesignSafe works and how the pieces fit together. The rest of the guide covers specific tasks: [submitting jobs](job-resources.md), [debugging failures](debugging.md), [parallel computing](parallel-computing.md), and [parameter sweeps](parameter-sweeps.md).
+This page explains how DesignSafe works and how the pieces fit together. The rest of the guide covers specific tasks: [submitting jobs](job-resources.md), [debugging failures](debugging.md), [debugging HPC jobs](debugging.md), and [parameter sweeps](parameter-sweeps.md).
 
 ## The DesignSafe Portal
 
@@ -81,7 +81,7 @@ Design workflows around the research question, not around a specific tool. A wor
 | Memory-bound analysis | Use nodes with more RAM or fewer cores per node | Large stiffness matrix assembly |
 | GPU-accelerated work | Use GPU queues on Stampede3 or Lonestar6 | ML training, dense linear algebra |
 
-[Parallel Computing](parallel-computing.md) and [Parameter Sweeps](parameter-sweeps.md) cover these scaling strategies in detail.
+[Debugging HPC Jobs](debugging.md) covers parallel execution in detail, and [Parameter Sweeps](parameter-sweeps.md) covers running many independent simulations.
 
 ## Where to go next
 
@@ -89,7 +89,7 @@ Design workflows around the research question, not around a specific tool. A wor
 |---|---|
 | Submit a job to HPC | [Running HPC Jobs](job-resources.md) |
 | Figure out why my job failed | [Debugging Failed Jobs](debugging.md) |
-| Run a simulation across many cores | [Parallel Computing](parallel-computing.md) |
+| Run a simulation across many cores | [Debugging HPC Jobs](debugging.md) (parallel execution section) |
 | Run hundreds of independent simulations | [Parameter Sweeps](parameter-sweeps.md) |
 | See what applications are available | [DesignSafe Applications](../apps/overview.md) |
 | Understand Tapis internals or build a custom app | [Advanced Topics](../advanced/tapis.md) |

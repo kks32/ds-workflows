@@ -10,8 +10,7 @@ A guide to running computational workflows on [DesignSafe](https://designsafe-ci
 
 - [How It Works](guide/how-it-works.md) The DesignSafe portal, compute environments, storage, and workflow design
 - [Running HPC Jobs](guide/job-resources.md) Job submission, resource parameters, queues, and file staging
-- [Debugging Failed Jobs](guide/debugging.md) Job states, output files, and common failure patterns
-- [Parallel Computing](guide/parallel-computing.md) MPI concepts and when parallel computing is needed
+- [Debugging HPC Jobs](guide/debugging.md) Parallel execution, job states, output files, and common failures
 - [Parameter Sweeps](guide/parameter-sweeps.md) Running hundreds of independent simulations with PyLauncher
 - [DesignSafe Applications](apps/overview.md) Catalog of 45+ available tools
 - [Advanced Topics](advanced/tapis.md) Tapis internals, execution strategies, and custom app development
