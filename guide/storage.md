@@ -42,19 +42,21 @@ The same storage area appears at different paths depending on the environment.
 
 ### HPC system paths
 
-The `$WORK` path includes the system name, so it differs across systems. `$HOME` is shared across all TACC systems.
+Each TACC system has its own `$HOME` and `$SCRATCH` filesystems. Only `$WORK` (the Stockyard global shared filesystem) is accessible across systems. The `$WORK` path includes the system name as a subdirectory.
 
-| System | Storage Area | Path | Environment Variable |
+Always use the environment variables (`$HOME`, `$WORK`, `$SCRATCH`) rather than hardcoded paths, since the underlying mount points can change. The examples below show typical paths, but `echo $WORK` will always give the correct current path.
+
+| System | Storage Area | Typical Path | Environment Variable |
 |---|---|---|---|
-| All | Home | `/home1/<groupid>/<username>/` | `$HOME` |
-| Stampede3 | Work | `/work2/<groupid>/<username>/stampede3/` | `$WORK` |
+| Stampede3 | Home | `/home1/<groupid>/<username>/` | `$HOME` |
+| Stampede3 | Work | `/work/<groupid>/<username>/stampede3/` | `$WORK` |
 | Stampede3 | Scratch | `/scratch/<groupid>/<username>/` | `$SCRATCH` |
-| Frontera | Work | `/work2/<groupid>/<username>/frontera/` | `$WORK` |
-| Frontera | Scratch | `/scratch1/<groupid>/<username>/` | `$SCRATCH` |
-| Lonestar6 | Work | `/work/<groupid>/<username>/` | `$WORK` |
+| Frontera | Home | `/home1/<groupid>/<username>/` | `$HOME` |
+| Frontera | Work | `/work/<groupid>/<username>/frontera/` | `$WORK` |
+| Frontera | Scratch | use `$SCRATCH` (mount point varies) | `$SCRATCH` |
+| Lonestar6 | Home | `/home1/<groupid>/<username>/` | `$HOME` |
+| Lonestar6 | Work | `/work/<groupid>/<username>/ls6/` | `$WORK` |
 | Lonestar6 | Scratch | `/scratch/<groupid>/<username>/` | `$SCRATCH` |
-
-Use `echo $WORK` and `echo $SCRATCH` on any system to verify the actual paths.
 
 ### Tapis job directory
 
