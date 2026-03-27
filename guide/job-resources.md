@@ -225,9 +225,9 @@ cp output_${RANK}.dat "${TAPIS_JOB_WORKDIR}/"
 
 Use the shared filesystem (Work/Scratch) for inputs, final outputs, and checkpoints. Use `/tmp` only for high-frequency scratch I/O and intermediate files.
 
-## What does your workload need?
+## What does your job need?
 
-Before choosing resources, ask what the workload actually requires. Most jobs on DesignSafe fit one of these patterns.
+Before choosing resources, ask what the job actually requires. Most jobs on DesignSafe fit one of these patterns.
 
 | Situation | What to request | Why |
 |---|---|---|
@@ -238,7 +238,7 @@ Before choosing resources, ask what the workload actually requires. Most jobs on
 | Model needs GPUs | GPU queue (`pvc` on Stampede3, `gpu-a100` on Lonestar6) | GPU-accelerated solvers or ML training |
 | Simulation is slow despite enough cores | Check I/O, not just CPU | Moving data to `/tmp` or Work may help more than adding cores |
 
-If the workload is I/O-bound (spending most of its time reading or writing files rather than computing), adding more cores will not help. Move data to faster storage (Work, Scratch, or `/tmp`) first. If the workload is memory-bound (crashing with out-of-memory errors or swapping), reduce cores per node to give each process more RAM, or use a node type with more memory (ICX at 256 GB, NVDIMM at 4 TB).
+If the job is I/O-bound (spending most of its time reading or writing files rather than computing), adding more cores will not help. Move data to faster storage (Work, Scratch, or `/tmp`) first. If the job is memory-bound (crashing with out-of-memory errors or swapping), reduce cores per node to give each process more RAM, or use a node type with more memory (ICX at 256 GB, NVDIMM at 4 TB).
 
 ## Resource sizing guidance
 
