@@ -22,7 +22,6 @@ project:
         - file: apps/openfoam.md
         - file: apps/adcirc.md
         - file: apps/agnostic-app.md
-        - file: apps/agnostic-app-inputs.md
     - title: Advanced
       children:
         - file: advanced/tapis.md

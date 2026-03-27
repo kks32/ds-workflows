@@ -200,3 +200,5 @@ Details and relationships are explained in later sections.
 | --- | --- | --- |
 | ZIP_OUTPUT_SWITCH | no | Repack output directory into a ZIP |
 | PATH_MOVE_OUTPUT | no | Move final output to WORK/SCRATCH/HOME |
+
+For a detailed description of every input parameter, see [AgnosticApp Input Arguments](agnostic-app-inputs.md).
