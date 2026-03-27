@@ -105,10 +105,10 @@ In both cases, `job.get_status()` will show FAILED. Check the Tapis job history 
 A lost notebook session does not mean losing track of a job. Reconnect using the job UUID.
 
 ```python
-from dapi import DSClient
+from dapi import DSClient, SubmittedJob
 
 ds = DSClient()
-job = ds.jobs.get("your-job-uuid-here")
+job = SubmittedJob(ds._tapis, "your-job-uuid-here")
 job.get_status()
 ```
 
