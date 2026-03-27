@@ -21,7 +21,7 @@ project:
         - file: apps/opensees.md
         - file: apps/openfoam.md
         - file: apps/adcirc.md
-        - title: Custom Python App
+        - title: Custom Python
           children:
             - file: apps/agnostic-app.md
               title: App
