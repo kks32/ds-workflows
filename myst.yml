@@ -11,6 +11,7 @@ project:
         - file: guide/how-it-works.md
         - file: guide/compute-environments.md
         - file: guide/storage.md
+        - file: guide/portal-submission.md
         - file: guide/job-resources.md
         - file: guide/debugging.md
         - file: guide/parameter-sweeps.md

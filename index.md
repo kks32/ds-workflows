@@ -11,7 +11,8 @@ A guide to running computational workflows on [DesignSafe](https://designsafe-ci
 - [How It Works](guide/how-it-works.md) The DesignSafe portal, compute environments, storage, and workflow design
 - [Compute Environments](guide/compute-environments.md) JupyterHub, VMs, HPC systems, queues, and allocations
 - [Storage and File Management](guide/storage.md) Storage areas, paths across environments, file staging, and dapi file operations
-- [Running HPC Jobs](guide/job-resources.md) Job submission, resource parameters, queues, and file staging
+- [Submitting a Job Through the Portal](guide/portal-submission.md) Step-by-step walkthrough with screenshots
+- [Running HPC Jobs](guide/job-resources.md) Job submission with dapi, resource parameters, and parallel execution
 - [Debugging Failed Jobs](guide/debugging.md) Job states, output files, and common failure patterns
 - [Parameter Sweeps](guide/parameter-sweeps.md) Running hundreds of independent simulations with PyLauncher
 - [DesignSafe Applications](apps/overview.md) Catalog of 45+ available tools

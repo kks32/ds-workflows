@@ -9,7 +9,8 @@ A guide to running computational workflows on [DesignSafe](https://designsafe-ci
 ## What this guide covers
 
 - **[How It Works](guide/how-it-works.md)** The DesignSafe portal, three compute environments (JupyterHub, Virtual Machines, HPC), storage, and how to design a workflow around your research
-- **[Running HPC Jobs](guide/job-resources.md)** Job submission, serial vs parallel (MPI) execution, resource parameters, and file staging
+- **[Submitting a Job Through the Portal](guide/portal-submission.md)** Step-by-step walkthrough with screenshots (OpenSees-MP example)
+- **[Running HPC Jobs](guide/job-resources.md)** Job submission with dapi, serial vs parallel (MPI) execution, resource parameters, and file staging
 - **[Debugging Failed Jobs](guide/debugging.md)** Job states, output files, troubleshooting checklist, and common failure patterns
 - **[Parameter Sweeps](guide/parameter-sweeps.md)** Running hundreds of independent simulations with PyLauncher
 - **[DesignSafe Applications](apps/overview.md)** Catalog of 45+ tools for simulation, analysis, visualization, GIS, and hazard data

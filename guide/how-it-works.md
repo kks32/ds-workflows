@@ -93,7 +93,8 @@ These are not the only patterns — some workloads are memory-bound, GPU-acceler
 |---|---|
 | Understand JupyterHub, HPC systems, queues, and allocations | [Compute Environments](compute-environments.md) |
 | Understand storage areas, paths, and file staging | [Storage and File Management](storage.md) |
-| Submit a job to HPC (serial or parallel) | [Running HPC Jobs](job-resources.md) |
+| Submit a job through the portal | [Portal Submission](portal-submission.md) |
+| Submit a job with dapi (serial or parallel) | [Running HPC Jobs](job-resources.md) |
 | Figure out why my job failed | [Debugging Failed Jobs](debugging.md) |
 | Run hundreds of independent simulations | [Parameter Sweeps](parameter-sweeps.md) |
 | See what applications are available | [DesignSafe Applications](../apps/overview.md) |
