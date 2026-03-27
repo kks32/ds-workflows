@@ -225,6 +225,21 @@ cp output_${RANK}.dat "${TAPIS_JOB_WORKDIR}/"
 
 Use the shared filesystem (Work/Scratch) for inputs, final outputs, and checkpoints. Use `/tmp` only for high-frequency scratch I/O and intermediate files.
 
+## What does your workload need?
+
+Before choosing resources, ask what the workload actually requires. Most jobs on DesignSafe fit one of these patterns.
+
+| Situation | What to request | Why |
+|---|---|---|
+| One model that fits on a single node | 1 node, 1 core (or a few for threaded apps) | Serial execution, no MPI overhead |
+| One model too large for a single node | Multiple nodes, cores matched to domain decomposition | MPI splits the problem across ranks |
+| Many independent models (parameter study) | 1 node, many cores, [PyLauncher](https://github.com/TACC/pylauncher) | Each core runs one independent task |
+| Model needs lots of memory per process | 1 node, fewer cores per node | Fewer processes means more RAM per process |
+| Model needs GPUs | GPU queue (`pvc` on Stampede3, `gpu-a100` on Lonestar6) | GPU-accelerated solvers or ML training |
+| Simulation is slow despite enough cores | Check I/O, not just CPU | Moving data to `/tmp` or Work may help more than adding cores |
+
+If the workload is I/O-bound (spending most of its time reading or writing files rather than computing), adding more cores will not help. Move data to faster storage (Work, Scratch, or `/tmp`) first. If the workload is memory-bound (crashing with out-of-memory errors or swapping), reduce cores per node to give each process more RAM, or use a node type with more memory (ICX at 256 GB, NVDIMM at 4 TB).
+
 ## Resource sizing guidance
 
 For node types, queue specifications, and allocation billing, see [Compute Environments](compute-environments.md).
