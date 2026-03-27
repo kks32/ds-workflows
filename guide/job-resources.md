@@ -116,6 +116,18 @@ The `ds.jobs.generate()` call above produces a Tapis job request. Tapis converts
 
 There is no need to write this script by hand. Tapis generates it automatically from the job request parameters.
 
+## Login nodes vs compute nodes
+
+TACC systems have two types of machines. **Login nodes** are shared entry points where researchers land after connecting via SSH or JupyterHub. They are for editing files, submitting jobs, and light scripting. Running a simulation directly on a login node slows the machine for everyone and may be killed automatically.
+
+**Compute nodes** are the machines that actually run jobs. They are accessed only through SLURM. When a job is submitted, SLURM assigns it to one or more compute nodes, and the simulation runs there in isolation. The job's environment (modules, environment variables, working directory) is set up on the compute node, not the login node. This distinction matters when debugging: a command that works in a JupyterHub terminal (login node) may fail inside a job (compute node) if the required modules or paths are different.
+
+## Why Work and Scratch are faster than MyData
+
+MyData and MyProjects live on Corral, a networked storage system optimized for reliability and backup. Work and Scratch live on [Lustre](https://www.lustre.org/), a parallel filesystem designed for high-throughput I/O on HPC clusters. Lustre stripes files across many disks simultaneously, so large reads and writes are significantly faster.
+
+For production simulations, always stage data to Work or Scratch rather than running directly against MyData. The performance difference is especially noticeable for jobs that read or write many files, or that perform frequent I/O during execution.
+
 ## Resource sizing guidance
 
 For storage paths, file staging, and transfer tips, see [Storage and File Management](storage.md). For node types, queue specifications, and allocation billing, see [Compute Environments](compute-environments.md).
