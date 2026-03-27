@@ -1,4 +1,4 @@
-# Portal Submission
+# Portal HPC Job Submission
 
 This walkthrough shows how to submit an OpenSees-MP parallel analysis through the [DesignSafe web portal](https://www.designsafe-ci.org/rw/workspace/). The same general process applies to any application available in the portal (OpenFOAM, ADCIRC, MATLAB, etc.).
 
