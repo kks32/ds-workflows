@@ -21,10 +21,12 @@ project:
         - file: apps/opensees.md
         - file: apps/openfoam.md
         - file: apps/adcirc.md
-        - title: DesignSafe Agnostic App
+        - title: Custom Python App
           children:
             - file: apps/agnostic-app.md
+              title: App
             - file: apps/agnostic-app-inputs.md
+              title: App Args
     - title: Advanced
       children:
         - file: advanced/tapis.md
