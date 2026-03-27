@@ -76,7 +76,7 @@ Design workflows around the research question, not around a specific tool. A wor
 
 **Embarrassingly parallel (parametric sweeps).** Many independent runs that do not communicate with each other. Each run gets its own inputs, produces its own outputs, and can succeed or fail without affecting the others. A fragility study running the same OpenSeesPy model across 500 ground-motion records is a classic example. Use [PyLauncher](https://github.com/TACC/pylauncher) to dispatch all tasks inside a single SLURM allocation. See [Parameter Sweeps](parameter-sweeps.md).
 
-**Tightly coupled parallel (MPI).** One large model split across many cores that must communicate during execution. Each core (rank) works on a different part of the problem and exchanges data with its neighbors through [MPI](https://www.mpi-forum.org/). A multi-node OpenFOAM simulation, ADCIRC storm surge model, or OpenSees MP domain-decomposed analysis all fall here. See [Debugging HPC Jobs](debugging.md) for MPI details.
+**Tightly coupled parallel (MPI).** One large model split across many cores that must communicate during execution. Each core (rank) works on a different part of the problem and exchanges data with its neighbors through [MPI](https://www.mpi-forum.org/). A multi-node OpenFOAM simulation, ADCIRC storm surge model, or OpenSees MP domain-decomposed analysis all fall here. See [Running HPC Jobs](job-resources.md#serial-vs-parallel-jobs) for MPI details.
 
 These are not the only patterns — some workloads are memory-bound, GPU-accelerated, or combine both approaches — but the distinction between "many independent runs" and "one big coupled run" drives most decisions about nodes, cores, and which application to use.
 
@@ -93,9 +93,8 @@ These are not the only patterns — some workloads are memory-bound, GPU-acceler
 |---|---|
 | Understand JupyterHub, HPC systems, queues, and allocations | [Compute Environments](compute-environments.md) |
 | Understand storage areas, paths, and file staging | [Storage and File Management](storage.md) |
-| Submit a job to HPC | [Running HPC Jobs](job-resources.md) |
+| Submit a job to HPC (serial or parallel) | [Running HPC Jobs](job-resources.md) |
 | Figure out why my job failed | [Debugging Failed Jobs](debugging.md) |
-| Run a simulation across many cores | [Debugging HPC Jobs](debugging.md) (parallel execution section) |
 | Run hundreds of independent simulations | [Parameter Sweeps](parameter-sweeps.md) |
 | See what applications are available | [DesignSafe Applications](../apps/overview.md) |
 | Understand Tapis internals or build a custom app | [Advanced Topics](../advanced/tapis.md) |

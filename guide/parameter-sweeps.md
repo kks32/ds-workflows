@@ -84,7 +84,7 @@ Expecting output in `tapisjob.out`. PyLauncher captures stdout and stderr per ta
 
 Forgetting to set `UseMPI=false`. When submitting a PyLauncher job through a Tapis app, set `UseMPI = false`. Enabling MPI for serial tasks causes jobs to hang, crash, or behave inconsistently.
 
-Using PyLauncher for tightly coupled workflows. PyLauncher dispatches independent tasks. If tasks need to communicate with each other during execution, use MPI directly instead. [Debugging HPC Jobs](debugging.md) covers MPI in detail.
+Using PyLauncher for tightly coupled workflows. PyLauncher dispatches independent tasks. If tasks need to communicate with each other during execution, use MPI directly instead. [Running HPC Jobs](job-resources.md#serial-vs-parallel-jobs) covers MPI in detail.
 
 ## Further Reading
 

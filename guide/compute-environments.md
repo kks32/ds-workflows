@@ -8,7 +8,7 @@ DesignSafe provides three places where computation happens. Each serves a differ
 
 Move to HPC when the workload needs more memory, more cores, multi-node parallelism (MPI), or longer runtimes than an interactive session allows.
 
-For heavier interactive work, **Jupyter HPC Native** sessions run directly on [Stampede3](https://docs.tacc.utexas.edu/hpc/stampede3/) or Vista GPU nodes with full node resources. These go through the SLURM queue, so there may be a wait before the session starts.
+For heavier interactive work, **Jupyter HPC Native** sessions run directly on [Stampede3](https://docs.tacc.utexas.edu/hpc/stampede3/) CPU nodes or [Vista](https://docs.tacc.utexas.edu/hpc/vista/) GPU nodes (NVIDIA H200) with full node resources. These go through the SLURM queue, so there may be a wait before the session starts. See the linked TACC user guides for Vista queue policies and hardware details.
 
 ## Virtual machines
 

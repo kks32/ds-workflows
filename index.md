@@ -12,7 +12,7 @@ A guide to running computational workflows on [DesignSafe](https://designsafe-ci
 - [Compute Environments](guide/compute-environments.md) JupyterHub, VMs, HPC systems, queues, and allocations
 - [Storage and File Management](guide/storage.md) Storage areas, paths across environments, file staging, and dapi file operations
 - [Running HPC Jobs](guide/job-resources.md) Job submission, resource parameters, queues, and file staging
-- [Debugging HPC Jobs](guide/debugging.md) Parallel execution, job states, output files, and common failures
+- [Debugging Failed Jobs](guide/debugging.md) Job states, output files, and common failure patterns
 - [Parameter Sweeps](guide/parameter-sweeps.md) Running hundreds of independent simulations with PyLauncher
 - [DesignSafe Applications](apps/overview.md) Catalog of 45+ available tools
 - [Advanced Topics](advanced/tapis.md) Tapis internals, execution strategies, and custom app development
@@ -26,9 +26,11 @@ from dapi import DSClient
 
 ds = DSClient()
 
+input_uri = ds.files.to_uri("/MyData/analysis/input/")
+
 job_request = ds.jobs.generate(
     app_id="opensees-mp-s3",
-    input_dir_uri="/MyData/analysis/input/",
+    input_dir_uri=input_uri,
     script_filename="model.tcl",
     max_minutes=60,
     allocation="your_allocation",

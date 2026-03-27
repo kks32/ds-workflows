@@ -1,6 +1,6 @@
 # Running HPC Jobs
 
-This page walks through submitting a simulation to [TACC](https://www.tacc.utexas.edu/) supercomputers through [DesignSafe](https://designsafe-ci.org): how jobs flow through the system, how to submit one, and how to choose the right resources. For background on HPC systems, nodes, queues, and allocations, see [Compute Environments](compute-environments.md).
+This page walks through submitting a simulation to [TACC](https://www.tacc.utexas.edu/) supercomputers through [DesignSafe](https://designsafe-ci.org): how jobs flow through the system, how to submit one, serial vs parallel execution, and how to choose the right resources. For HPC system specs, queues, and allocations, see [Compute Environments](compute-environments.md).
 
 ## Two ways to submit a job
 
@@ -10,7 +10,7 @@ DesignSafe provides two paths to submit an HPC job. Both produce the same result
 
 **dapi from a Jupyter notebook.** [dapi](https://designsafe-ci.github.io/dapi/) is a Python library that submits jobs programmatically. Instead of clicking through a form, a few lines of code describe the job, submit it, monitor its progress, and retrieve results. This is the preferred approach when running many jobs, building reproducible workflows, or automating parameter studies.
 
-Both methods use [Tapis](https://tapis.readthedocs.io/en/latest/) behind the scenes. Tapis is the middleware that connects the DesignSafe interface to TACC hardware. It copies input files to the execution system, generates a SLURM scheduler script, submits it, monitors the job, and copies results back. The researcher never writes SLURM scripts or transfers files manually.
+Both methods use [Tapis](https://tapis.readthedocs.io/en/latest/) behind the scenes. Tapis is the middleware that connects the DesignSafe interface to TACC hardware. It copies input files to the execution system, generates a [SLURM](https://slurm.schedmd.com/documentation.html) scheduler script, submits it, monitors the job, and copies results back. The researcher never writes SLURM scripts or transfers files manually.
 
 ## How a job moves through the system
 
@@ -19,7 +19,7 @@ Both methods use [Tapis](https://tapis.readthedocs.io/en/latest/) behind the sce
 Every HPC job follows the same sequence, regardless of how it was submitted.
 
 1. **Submit.** The researcher describes the job (application, input files, resources) and submits it through the portal or dapi.
-2. **Stage inputs.** Tapis copies input files from DesignSafe storage to the execution system.
+2. **Stage inputs.** Tapis copies input files from DesignSafe storage to the execution system. This happens before the SLURM job starts and does not count against the walltime.
 3. **Generate and queue.** Tapis creates a SLURM batch script and submits it. The job enters the queue.
 4. **Execute.** When the requested nodes become available, SLURM launches the application. The simulation runs and writes output to a working directory on the compute system.
 5. **Archive.** After completion, Tapis copies results back to DesignSafe storage.
@@ -72,8 +72,8 @@ print(json.dumps(job_request, indent=2, default=str))
 
 | Parameter | What it means |
 |---|---|
-| `app_id` | Which application to run (`opensees-mp-s3` is OpenSees-MP on Stampede3) |
-| `input_dir_uri` | Where the input files are stored on DesignSafe |
+| `app_id` | Which application to run (see [app_id reference](../apps/overview.md#tapis-app-ids)) |
+| `input_dir_uri` | Tapis URI of the input files (use `ds.files.to_uri()` to convert) |
 | `script_filename` | The main script file in the input directory |
 | `node_count` | Number of physical machines to allocate |
 | `cores_per_node` | CPU cores per node (total cores = node_count x cores_per_node) |
@@ -116,6 +116,77 @@ The `ds.jobs.generate()` call above produces a Tapis job request. Tapis converts
 
 There is no need to write this script by hand. Tapis generates it automatically from the job request parameters.
 
+## Serial vs parallel jobs
+
+Most HPC workloads on DesignSafe fall into one of three patterns. The distinction determines how to set `node_count` and `cores_per_node`.
+
+**Serial jobs** run a single process on one core. A standalone OpenSeesPy script, a MATLAB analysis, or a Python post-processing script are serial. Set `node_count=1` and `cores_per_node=1` (or a small number if the application uses internal threading).
+
+**Embarrassingly parallel jobs** run many independent serial tasks that do not communicate with each other. A fragility study running the same model across 500 ground-motion records is a classic example. Each task gets its own inputs, produces its own outputs, and can succeed or fail independently. Use [PyLauncher](https://github.com/TACC/pylauncher) inside a single SLURM allocation to dispatch all tasks efficiently. See [Parameter Sweeps](parameter-sweeps.md).
+
+**MPI parallel jobs** run one large model split across many cores that must communicate during execution. Each core runs a process called a **rank**. Ranks work on different parts of the problem (for example, different regions of a finite-element mesh) and exchange data with their neighbors through [MPI](https://www.mpi-forum.org/) (Message Passing Interface). This splitting is called **domain decomposition**. [OpenSees](https://opensees.berkeley.edu/) MP, [ADCIRC](https://adcirc.org/), [OpenFOAM](https://www.openfoam.com/), and MPM all use MPI internally.
+
+| Job type | `node_count` | `cores_per_node` | Example |
+|---|---|---|---|
+| Serial | 1 | 1 | OpenSeesPy script, MATLAB analysis |
+| Embarrassingly parallel (PyLauncher) | 1 | 48 (one task per core) | 500-run fragility study |
+| MPI parallel | 2 | 48 (96 total ranks) | OpenSees MP with 96 subdomains |
+
+Researchers using MPI applications do not write MPI code themselves. The application handles the parallelism internally. The researcher's role is to request the right number of nodes and cores so the total rank count matches the model's domain decomposition. If an OpenSees MP model is partitioned into 96 subdomains, the job must request exactly 96 total cores (for example, 2 nodes x 48 cores).
+
+### Submitting a parallel job
+
+A parallel job looks the same as any other dapi submission, with `node_count` and `cores_per_node` set to match the problem:
+
+```python
+job_request = ds.jobs.generate(
+    app_id="opensees-mp-s3",
+    input_dir_uri=input_uri,
+    script_filename="analysis.tcl",
+    node_count=2,
+    cores_per_node=48,
+    max_minutes=120,
+    allocation="your_allocation",
+    queue="skx",
+)
+```
+
+This produces 96 MPI ranks (2 x 48). If the rank count does not match the model's decomposition, the simulation will either fail or produce incorrect results.
+
+### Ranks and how they map to hardware
+
+When an MPI program starts, SLURM launches multiple copies of it. Each copy is a rank with a unique integer ID from 0 through N-1. Requesting 2 nodes with 48 cores each produces 96 ranks. Rank 0 might process the left portion of a structural mesh, rank 47 the right portion on the first node, and ranks 48 through 95 cover the second node.
+
+SLURM sets environment variables that a program can read to determine its identity:
+
+| Variable | Meaning |
+|---|---|
+| `SLURM_PROCID` | Global MPI rank ID (0 through N-1) |
+| `SLURM_LOCALID` | Rank index within the current node |
+| `SLURM_NODEID` | Node index within the job allocation |
+| `SLURM_JOB_ID` | Scheduler job identifier |
+
+### Rank-aware file management
+
+Two ranks writing to the same filename will overwrite each other, producing corrupted output or silently wrong results. Use the rank ID in output file paths to prevent collisions.
+
+```python
+import os
+
+rank = os.environ.get("SLURM_PROCID", "0")
+output_file = f"results_rank{rank}.txt"
+```
+
+All ranks on the same node share the same `/tmp` directory, so even temporary files need rank-based naming.
+
+## Modules and ibrun
+
+TACC uses **environment modules** to manage software installations. Multiple versions of the same software can coexist on a system, and `module load` activates a specific version by setting the right paths and environment variables. For example, `module load opensees/3.7.0` makes that version of OpenSees available on the compute node.
+
+When using DesignSafe apps through dapi or the portal, module loading is handled automatically by the app's wrapper script. Researchers writing custom apps or wrapper scripts need to include the appropriate `module load` commands.
+
+On TACC systems, **`ibrun`** is the correct way to launch MPI applications. It is a TACC-specific wrapper around the MPI launcher that correctly handles process placement across nodes. Using `mpirun` or `mpiexec` directly on TACC systems can produce unexpected behavior. If you see MPI errors in `tapisjob.err` mentioning hostfiles or daemon startup failures, check that `ibrun` is being used.
+
 ## Login nodes vs compute nodes
 
 TACC systems have two types of machines. **Login nodes** are shared entry points where researchers land after connecting via SSH or JupyterHub. They are for editing files, submitting jobs, and light scripting. Running a simulation directly on a login node slows the machine for everyone and may be killed automatically.
@@ -156,12 +227,12 @@ Use the shared filesystem (Work/Scratch) for inputs, final outputs, and checkpoi
 
 ## Resource sizing guidance
 
-For storage paths, file staging, and transfer tips, see [Storage and File Management](storage.md). For node types, queue specifications, and allocation billing, see [Compute Environments](compute-environments.md).
+For node types, queue specifications, and allocation billing, see [Compute Environments](compute-environments.md).
 
 **Start small.** Run the model in the development queue with a short walltime and a single node. A 10-minute test on `skx-dev` costs almost nothing and catches most configuration errors before they waste hours of allocation time.
 
-**Account for staging time.** Tapis copies input files before the job starts and archives outputs afterward. Both count against the walltime limit. If a simulation takes 30 minutes but staging takes 10, request at least 50 minutes.
-
-**Match cores to the problem.** For [MPI](https://www.mpi-forum.org/) jobs, total ranks = node_count x cores_per_node. If a model is decomposed into 96 subdomains, request 2 nodes with 48 cores each. For serial jobs or [PyLauncher](https://github.com/TACC/pylauncher) sweeps, one node is usually enough.
+**Match cores to the problem.** For MPI jobs, total ranks = node_count x cores_per_node. If a model is decomposed into 96 subdomains, request 2 nodes with 48 cores each. For serial jobs or PyLauncher sweeps, one node is usually enough.
 
 **Watch memory per core.** All cores on a node share the same RAM. If each MPI process needs 8 GB and the node has 192 GB, running all 48 cores gives only about 4 GB per process. Requesting fewer cores per node gives each process more memory. See the [memory-per-core table](compute-environments.md#nodes-cores-and-memory) for specifics.
+
+**Add margin to walltime.** If a simulation takes 30 minutes on a test run, request 45-60 minutes for production to account for variability. SLURM kills jobs that exceed their time limit.

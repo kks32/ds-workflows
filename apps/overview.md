@@ -61,6 +61,26 @@
 
 ---
 
+## Tapis App IDs
+
+When submitting jobs through [dapi](https://designsafe-ci.github.io/dapi/), the `app_id` parameter specifies which application to run. The table below lists common app IDs. Use `ds.apps.list()` for the full current list.
+
+| Application | `app_id` | System | MPI | Notes |
+|---|---|---|---|---|
+| OpenSees MP | `opensees-mp-s3` | Stampede3 | Yes | Parallel structural analysis |
+| OpenSees SP | `opensees-sp-s3` | Stampede3 | Yes | Single-process parallel |
+| OpenSees EXPRESS | `opensees-express` | VM | No | Serial Tcl on shared VM |
+| OpenFOAM | `openfoam-s3` | Stampede3 | Yes | CFD simulations |
+| ADCIRC | `adcirc-s3` | Stampede3 | Yes | Storm surge modeling |
+| LS-DYNA | `ls-dyna-s3` | Stampede3 | Yes | Explicit dynamics |
+| MPM | `mpm-s3` | Stampede3 | Yes | Material point method |
+| Agnostic App | `designsafe-agnostic-app` | Stampede3 | Configurable | General-purpose (Python, Tcl, PyLauncher) |
+| OpenSeesPy | `openseespy-s3` | Stampede3 | No | Python-based OpenSees |
+
+App IDs may include version suffixes (e.g., `opensees-mp-s3-3.7.0`). When no version is specified, the latest version is used.
+
+---
+
 The full list of applications is maintained at [DesignSafe Tools & Applications](https://www.designsafe-ci.org/use-designsafe/tools-applications/). The [SimCenter](https://simcenter.designsafe-ci.org/) provides additional research and learning tools beyond those listed here.
 
 Detailed configuration guides exist for [OpenSees](opensees.md), [OpenFOAM](openfoam.md), [ADCIRC](adcirc.md), and the [Agnostic App](agnostic-app.md).
