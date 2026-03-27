@@ -1,4 +1,4 @@
-# OpenSees Apps
+# OpenSees
 
 Running [OpenSees](https://opensees.berkeley.edu/) on an HPC system like [Stampede3](https://www.tacc.utexas.edu/systems/stampede3) is not as simple as typing a command. Normally, you would need to
 

@@ -1,4 +1,4 @@
-# Computational Workflows on DesignSafe
+# How It Works
 
 [DesignSafe](https://designsafe-ci.org) brings together the computational power of the [Texas Advanced Computing Center (TACC)](https://www.tacc.utexas.edu/) with cloud-based interfaces, allowing researchers to move between interactive exploration and large-scale, production-level computation. Whether testing a small Python script in a Jupyter notebook or deploying thousands of simulations across TACC HPC systems, the platform scales from one core to tens of thousands.
 

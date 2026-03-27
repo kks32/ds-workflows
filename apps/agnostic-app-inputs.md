@@ -1,4 +1,4 @@
-# AgnosticApp - Input Arguments
+# App Arguments
 
 *Input parameters and what each one means*
 

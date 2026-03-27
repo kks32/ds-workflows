@@ -1,4 +1,4 @@
-# ADCIRC app
+# ADCIRC
 
 [ADCIRC](https://adcirc.org/) is a widely used high-performance model for simulating coastal storm surge, tides, and other hydrodynamic flows. It solves large-scale systems with complex meshes and often requires hundreds or thousands of cores to run efficiently.
 

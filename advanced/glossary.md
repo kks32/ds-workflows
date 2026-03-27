@@ -1,4 +1,4 @@
-# Tapis-App Glossary
+# Glossary
 
 This glossary is focused on [DesignSafe](https://www.designsafe-ci.org/) + [Stampede3](https://www.tacc.utexas.edu/systems/stampede3) workflows.
 

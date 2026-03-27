@@ -1,4 +1,4 @@
-# OpenFOAM app
+# OpenFOAM
 
 [OpenFOAM](https://www.openfoam.com/) is a powerful, open-source computational fluid dynamics (CFD) toolkit, widely used for modeling fluid flow, turbulence, heat transfer, and more. Running OpenFOAM on a large-scale HPC system like [Stampede3](https://www.tacc.utexas.edu/systems/stampede3) is notoriously complex for several reasons.
 

@@ -1,4 +1,4 @@
-# designsafe-agnostic-app
+# Agnostic App
 
 *Agnostic Tapis App for General Execution, including Python, OpenSees, OpenSeesMP, OpenSeesSP, and OpenSeesPy*
 

@@ -1,4 +1,4 @@
-# DesignSafe Applications and Tapis
+# Tapis and Custom Apps
 
 Every tool on DesignSafe, whether [OpenSees](https://opensees.berkeley.edu/), [OpenFOAM](https://www.openfoam.com/), [ADCIRC](https://adcirc.org/), or the general-purpose Agnostic App, is a **Tapis application**. Understanding what that means is the key to using DesignSafe effectively, and the foundation for building custom tools that are reproducible and shareable.
 
