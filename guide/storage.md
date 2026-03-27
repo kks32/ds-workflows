@@ -7,20 +7,20 @@ Research data and compute hardware are co-located at [TACC](https://www.tacc.ute
 | Storage Area | Backed Up | Accessible From | Best For |
 |---|---|---|---|
 | **MyData** | Yes | Data Depot, JupyterHub, VMs, Tapis | Personal files: scripts, inputs, outputs |
-| **MyProjects** | Yes | Data Depot, JupyterHub, VMs, Tapis | Team collaboration, curation, publication |
+| **projects** | Yes | Data Depot, JupyterHub, VMs, Tapis | Team collaboration, curation, publication |
 | **CommunityData** | Yes | Data Depot, JupyterHub, VMs, Tapis | Public shared datasets (read-only) |
 | **Published** | Yes | Data Depot, JupyterHub, VMs, Tapis | Archived datasets with DOIs (read-only) |
 | **Work** | No | Compute nodes, JupyterHub, Data Depot | Active HPC job I/O, staging large inputs |
 | **Scratch** | No (purged) | Compute nodes only | Temporary high-speed storage during jobs |
 
-MyData, MyProjects, CommunityData, and Published all live on **Corral**, TACC's networked storage with automatic backups. This is the long-term home for research data. Performance is moderate because access goes over the network.
+MyData, projects, CommunityData, and Published all live on **Corral**, TACC's networked storage with automatic backups. This is the long-term home for research data. Performance is moderate because access goes over the network.
 
-**Work** and **Scratch** live on [Lustre](https://www.lustre.org/), a parallel filesystem that stripes files across many disks simultaneously. This makes large reads and writes significantly faster than Corral. Work and Scratch are **not backed up**. Use them for staging large inputs and holding outputs temporarily. Always copy important results back to MyData or MyProjects. The performance difference is especially noticeable for jobs that read or write many files, or that perform frequent I/O during execution.
+**Work** and **Scratch** live on [Lustre](https://www.lustre.org/), a parallel filesystem that stripes files across many disks simultaneously. This makes large reads and writes significantly faster than Corral. Work and Scratch are **not backed up**. Use them for staging large inputs and holding outputs temporarily. Always copy important results back to MyData or projects. The performance difference is especially noticeable for jobs that read or write many files, or that perform frequent I/O during execution.
 
 **Node-local storage** (`/tmp`) on each compute node is the fastest option but files disappear when the job ends. Use it for scratch I/O during computation. See [Running HPC Jobs](job-resources.md#node-local-storage) for details on `/tmp` sizes and usage patterns.
 
 ```
-Prepare in Corral (MyData/MyProjects)
+Prepare in Corral (MyData/projects)
     → Stage to Work for large datasets
     → Run jobs (use /tmp for scratch I/O)
     → Archive results back to Corral
@@ -32,13 +32,14 @@ The same storage area appears at different paths depending on the environment.
 
 ### JupyterHub paths
 
-| Storage Area | Path |
-|---|---|
-| MyData | `/home/jupyter/MyData/` |
-| MyProjects | `/home/jupyter/MyProjects/PRJ-XXXX/` |
-| Work (Stampede3) | `/home/jupyter/Work/stampede3/` |
-| CommunityData | `/home/jupyter/CommunityData/` |
-| NHERI Published | `/home/jupyter/NHERI-Published/PRJ-XXXX/` |
+| Data Depot Section | JupyterHub Directory | Path |
+|---|---|---|
+| My Data | `MyData` | `/home/jupyter/MyData/` |
+| My Projects | `projects` | `/home/jupyter/projects/PRJ-XXXX/` |
+| Community Data | `CommunityData` | `/home/jupyter/CommunityData/` |
+| Published | `NHERI-Published` | `/home/jupyter/NHERI-Published/PRJ-XXXX/` |
+| Published (NEES) | `NEES` | `/home/jupyter/NEES/` |
+| Work | `Work` | `/home/jupyter/Work/stampede3/` (HPC Native sessions only) |
 
 ### HPC system paths
 
@@ -82,7 +83,7 @@ Common path mappings:
 | DesignSafe Path | Tapis URI |
 |---|---|
 | `/MyData/folder/` | `tapis://designsafe.storage.default/username/folder/` |
-| `/MyProjects/PRJ-XXXX/folder/` | `tapis://project-XXXX/folder/` |
+| `/projects/PRJ-XXXX/folder/` | `tapis://project-XXXX/folder/` |
 | `/CommunityData/folder/` | `tapis://designsafe.storage.community/folder/` |
 
 ## File operations with dapi
