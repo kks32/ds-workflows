@@ -122,11 +122,37 @@ TACC systems have two types of machines. **Login nodes** are shared entry points
 
 **Compute nodes** are the machines that actually run jobs. They are accessed only through SLURM. When a job is submitted, SLURM assigns it to one or more compute nodes, and the simulation runs there in isolation. The job's environment (modules, environment variables, working directory) is set up on the compute node, not the login node. This distinction matters when debugging: a command that works in a JupyterHub terminal (login node) may fail inside a job (compute node) if the required modules or paths are different.
 
-## Why Work and Scratch are faster than MyData
+## Storage during job execution
 
-MyData and MyProjects live on Corral, a networked storage system optimized for reliability and backup. Work and Scratch live on [Lustre](https://www.lustre.org/), a parallel filesystem designed for high-throughput I/O on HPC clusters. Lustre stripes files across many disks simultaneously, so large reads and writes are significantly faster.
+Tapis stages input files to the execution system's Work filesystem before the job starts and archives output back to DesignSafe storage after completion. For production simulations, always use Work or Scratch rather than running against MyData. Work and Scratch are on a fast parallel filesystem and perform significantly better for I/O-heavy jobs. See [Storage and File Management](storage.md) for details on storage areas, paths, and why the performance differs.
 
-For production simulations, always stage data to Work or Scratch rather than running directly against MyData. The performance difference is especially noticeable for jobs that read or write many files, or that perform frequent I/O during execution.
+### Node-local storage
+
+For I/O-intensive jobs, copying data to `/tmp` on the compute node avoids shared-filesystem contention entirely. Each node has its own `/tmp` partition. It is not shared across nodes and is purged at the end of each job.
+
+| System | Node Type | /tmp Size |
+|---|---|---|
+| Stampede3 | SKX | 90 GB |
+| Stampede3 | ICX | 200 GB |
+| Stampede3 | SPR | 150 GB |
+| Stampede3 | PVC / H100 | 3.5 TB |
+| Frontera | CLX | 144 GB |
+| Lonestar6 | All | 288 GB |
+
+```bash
+RANK="${SLURM_PROCID:-0}"
+SCRATCH_DIR="/tmp/${USER}/job_${SLURM_JOB_ID}/rank_${RANK}"
+mkdir -p "${SCRATCH_DIR}"
+
+cp input_${RANK}.dat "${SCRATCH_DIR}/"
+cd "${SCRATCH_DIR}"
+./solver input_${RANK}.dat > output_${RANK}.dat
+
+# Copy results back before the job ends
+cp output_${RANK}.dat "${TAPIS_JOB_WORKDIR}/"
+```
+
+Use the shared filesystem (Work/Scratch) for inputs, final outputs, and checkpoints. Use `/tmp` only for high-frequency scratch I/O and intermediate files.
 
 ## Resource sizing guidance
 

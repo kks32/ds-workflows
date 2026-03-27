@@ -15,9 +15,9 @@ Research data and compute hardware are co-located at [TACC](https://www.tacc.ute
 
 MyData, MyProjects, CommunityData, and Published all live on **Corral**, TACC's networked storage with automatic backups. This is the long-term home for research data. Performance is moderate because access goes over the network.
 
-**Work** is mounted directly on compute systems with higher I/O performance, but it is **not backed up**. Use it for staging large inputs and holding outputs temporarily. Always copy important results back to MyData or MyProjects.
+**Work** and **Scratch** live on [Lustre](https://www.lustre.org/), a parallel filesystem that stripes files across many disks simultaneously. This makes large reads and writes significantly faster than Corral. Work and Scratch are **not backed up**. Use them for staging large inputs and holding outputs temporarily. Always copy important results back to MyData or MyProjects. The performance difference is especially noticeable for jobs that read or write many files, or that perform frequent I/O during execution.
 
-**Node-local storage** (`/tmp`) on each compute node is the fastest option but files disappear when the job ends. Use it for scratch I/O during computation.
+**Node-local storage** (`/tmp`) on each compute node is the fastest option but files disappear when the job ends. Use it for scratch I/O during computation. See [Running HPC Jobs](job-resources.md#node-local-storage) for details on `/tmp` sizes and usage patterns.
 
 ```
 Prepare in Corral (MyData/MyProjects)
