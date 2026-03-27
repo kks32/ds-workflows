@@ -87,6 +87,19 @@ When a job does not behave as expected, work through these checks in order.
 
 **Module not available.** TACC uses environment **modules** to manage software versions. If `.err` shows `Lmod has detected the following error: The following module(s) are unknown`, the compute node does not have the expected software. This often happens when a module name or version has changed. Verify the app definition includes the correct module loads.
 
+**Staging failure.** If the job fails during STAGING_INPUTS, Tapis could not copy the input files to the execution system. Common causes:
+- The `input_dir_uri` path is wrong. Double-check with `ds.files.list()` that the directory exists and contains the expected files.
+- Permission denied on a MyProjects directory. The submitting user must be a member of the project.
+- The source directory is empty or does not exist on the storage system.
+- Storage quota exceeded on the execution system's Work filesystem.
+
+**Archiving failure.** If the job ran successfully but fails during ARCHIVING, Tapis could not copy the output files back to DesignSafe storage. Common causes:
+- The archive path does not exist or the user does not have write access.
+- The output is too large for the available Corral quota.
+- The job produced no output files (check that the simulation actually wrote results to the working directory).
+
+In both cases, `job.get_status()` will show FAILED. Check the Tapis job history for the specific error message, or contact DesignSafe support with the job UUID.
+
 ## Reconnecting to a running job
 
 A lost notebook session does not mean losing track of a job. Reconnect using the job UUID.

@@ -40,13 +40,21 @@ The same storage area appears at different paths depending on the environment.
 | CommunityData | `/home/jupyter/CommunityData/` |
 | NHERI Published | `/home/jupyter/NHERI-Published/PRJ-XXXX/` |
 
-### Stampede3 paths
+### HPC system paths
 
-| Storage Area | Path | Environment Variable |
-|---|---|---|
-| Home | `/home1/<groupid>/<username>/` | `$HOME` |
-| Work | `/work2/<groupid>/<username>/stampede3/` | `$WORK` |
-| Scratch | `/scratch/<groupid>/<username>/` | `$SCRATCH` |
+The `$WORK` path includes the system name, so it differs across systems. `$HOME` is shared across all TACC systems.
+
+| System | Storage Area | Path | Environment Variable |
+|---|---|---|---|
+| All | Home | `/home1/<groupid>/<username>/` | `$HOME` |
+| Stampede3 | Work | `/work2/<groupid>/<username>/stampede3/` | `$WORK` |
+| Stampede3 | Scratch | `/scratch/<groupid>/<username>/` | `$SCRATCH` |
+| Frontera | Work | `/work2/<groupid>/<username>/frontera/` | `$WORK` |
+| Frontera | Scratch | `/scratch1/<groupid>/<username>/` | `$SCRATCH` |
+| Lonestar6 | Work | `/work/<groupid>/<username>/` | `$WORK` |
+| Lonestar6 | Scratch | `/scratch/<groupid>/<username>/` | `$SCRATCH` |
+
+Use `echo $WORK` and `echo $SCRATCH` on any system to verify the actual paths.
 
 ### Tapis job directory
 
