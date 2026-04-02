@@ -7,20 +7,21 @@ Research data and compute hardware are co-located at [TACC](https://www.tacc.ute
 | Storage Area | Backed Up | Accessible From | Best For |
 |---|---|---|---|
 | **MyData** | Yes | Data Depot, JupyterHub, VMs, Tapis | Personal files: scripts, inputs, outputs |
-| **projects** | Yes | Data Depot, JupyterHub, VMs, Tapis | Team collaboration, curation, publication |
+| **MyProjects** | Yes | Data Depot, JupyterHub, VMs, Tapis | Team collaboration, curation, publication |
 | **CommunityData** | Yes | Data Depot, JupyterHub, VMs, Tapis | Public shared datasets (read-only) |
-| **Published** | Yes | Data Depot, JupyterHub, VMs, Tapis | Archived datasets with DOIs (read-only) |
+| **NHERI-Published** | Yes | Data Depot, JupyterHub, VMs, Tapis | Archived NHERI datasets with DOIs (read-only) |
+| **NEES** | Yes | Data Depot, JupyterHub, VMs, Tapis | Legacy NEES datasets (read-only) |
 | **Work** | No | Compute nodes, JupyterHub, Data Depot | Active HPC job I/O, staging large inputs |
 | **Scratch** | No (purged) | Compute nodes only | Temporary high-speed storage during jobs |
 
-MyData, projects, CommunityData, and Published all live on **Corral**, TACC's networked storage with automatic backups. This is the long-term home for research data. Performance is moderate because access goes over the network.
+MyData, MyProjects, CommunityData, NHERI-Published, and NEES all live on **Corral**, TACC's networked storage with automatic backups. This is the long-term home for research data. Performance is moderate because access goes over the network.
 
-**Work** and **Scratch** live on [Lustre](https://www.lustre.org/), a parallel filesystem that stripes files across many disks simultaneously. This makes large reads and writes significantly faster than Corral. Work and Scratch are **not backed up**. Use them for staging large inputs and holding outputs temporarily. Always copy important results back to MyData or projects. The performance difference is especially noticeable for jobs that read or write many files, or that perform frequent I/O during execution.
+**Work** and **Scratch** live on [Lustre](https://www.lustre.org/), a parallel filesystem that stripes files across many disks simultaneously. This makes large reads and writes significantly faster than Corral. Work and Scratch are **not backed up**. Use them for staging large inputs and holding outputs temporarily. Always copy important results back to MyData or MyProjects. The performance difference is especially noticeable for jobs that read or write many files, or that perform frequent I/O during execution.
 
 **Node-local storage** (`/tmp`) on each compute node is the fastest option but files disappear when the job ends. Use it for scratch I/O during computation. See [Running HPC Jobs](job-resources.md#node-local-storage) for details on `/tmp` sizes and usage patterns.
 
 ```
-Prepare in Corral (MyData/projects)
+Prepare in Corral (MyData/MyProjects)
     → Stage to Work for large datasets
     → Run jobs (use /tmp for scratch I/O)
     → Archive results back to Corral
@@ -35,7 +36,7 @@ The same storage area appears at different paths depending on the environment.
 | Data Depot Section | JupyterHub Directory | Path |
 |---|---|---|
 | My Data | `MyData` | `/home/jupyter/MyData/` |
-| My Projects | `projects` | `/home/jupyter/projects/PRJ-XXXX/` |
+| My Projects | `MyProjects` | `/home/jupyter/MyProjects/PRJ-XXXX/` |
 | Community Data | `CommunityData` | `/home/jupyter/CommunityData/` |
 | Published | `NHERI-Published` | `/home/jupyter/NHERI-Published/PRJ-XXXX/` |
 | Published (NEES) | `NEES` | `/home/jupyter/NEES/` |
@@ -78,13 +79,17 @@ input_uri = ds.files.to_uri("/MyData/opensees/site-response/")
 path = ds.files.to_path(input_uri)
 ```
 
-Common path mappings:
+Common path mappings (dapi translates these automatically):
 
 | DesignSafe Path | Tapis URI |
 |---|---|
 | `/MyData/folder/` | `tapis://designsafe.storage.default/username/folder/` |
-| `/projects/PRJ-XXXX/folder/` | `tapis://project-XXXX/folder/` |
+| `/projects/PRJ-XXXX/folder/` | `tapis://project-<uuid>/folder/` |
 | `/CommunityData/folder/` | `tapis://designsafe.storage.community/folder/` |
+
+For projects, dapi searches Tapis to resolve the PRJ number to the project's UUID-based system ID (e.g., `project-766bbc0e-a536-...`).
+
+NHERI-Published and NEES are read-only and not typically used as job inputs. Their Tapis system IDs are `designsafe.storage.published` and `nees.public`.
 
 ## File operations with dapi
 

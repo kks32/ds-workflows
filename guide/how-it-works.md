@@ -51,7 +51,8 @@ DesignSafe provides several storage areas with different tradeoffs between persi
 | Work | Active workspace on the HPC system | No |
 | Scratch | Temporary high-speed storage on HPC | No (purged) |
 | CommunityData | Public datasets shared across DesignSafe | Yes |
-| Published | Archived datasets with DOIs | Yes |
+| NHERI-Published | Archived NHERI datasets with DOIs | Yes |
+| NEES | Legacy NEES datasets | Yes |
 
 MyData and MyProjects live on Corral, TACC's backed-up storage. Work and Scratch are fast but not backed up. Always copy important results to MyData or MyProjects when a job finishes.
 
