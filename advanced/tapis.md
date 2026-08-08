@@ -1,6 +1,6 @@
 # Tapis and Custom Apps
 
-Every tool on DesignSafe, whether [OpenSees](https://opensees.berkeley.edu/), [OpenFOAM](https://www.openfoam.com/), [ADCIRC](https://adcirc.org/), or the general-purpose Agnostic App, is a **Tapis application**. Understanding what that means is the key to using DesignSafe effectively, and the foundation for building custom tools that are reproducible and shareable.
+Every tool on DesignSafe, whether [OpenSees](https://opensees.berkeley.edu/), [OpenFOAM](https://www.openfoam.com/), [ADCIRC](https://adcirc.org/), or the general-purpose [Python App](../apps/python.md), is a **Tapis application**. Understanding what that means is the key to using DesignSafe effectively, and the foundation for building custom tools that are reproducible and shareable.
 
 ## What is a Tapis App?
 
@@ -20,7 +20,7 @@ All of the applications available in the DesignSafe portal are Tapis Apps. Each 
 | `openfoam-s3` | Runs OpenFOAM on Stampede3 | Handles case directory staging, decomposePar, parallel reconstruction |
 | `adcirc-s3` | Runs ADCIRC on Stampede3 | Manages mesh inputs, MPI configuration, ensemble setup |
 | `opensees-express` | Runs serial OpenSees on a VM | Uses FORK execution (no scheduler) on a dedicated VM |
-| `designsafe-agnostic-app` | Runs any script (Python, Tcl, etc.) | User specifies binary, script, modules, and MPI flag as parameters |
+| `python-s3` | Runs Python scripts or any executable | User supplies script, optional binary, modules, pip installs, pre/post scripts, and MPI flag |
 
 When a researcher submits an OpenSees job through dapi:
 

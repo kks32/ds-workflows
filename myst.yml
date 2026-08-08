@@ -23,10 +23,12 @@ project:
         - file: apps/adcirc.md
         - title: Custom Python
           children:
-            - file: apps/agnostic-app.md
-              title: App
-            - file: apps/agnostic-app-inputs.md
-              title: App Args
+            - file: apps/python.md
+              title: Python App
+            - file: apps/python-inputs.md
+              title: Choosing Inputs
+            - file: apps/python-args.md
+              title: App Arguments
     - title: Advanced
       children:
         - file: advanced/tapis.md

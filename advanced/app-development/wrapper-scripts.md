@@ -344,7 +344,7 @@ A Tapis job on an HPC system is a standard Slurm batch job. Once the job starts,
 
 Because Tapis has already reserved the compute nodes, PyLauncher simply inherits the Slurm allocation. It detects available resources by reading standard Slurm environment variables and uses them automatically.
 
-The DesignSafe Agnostic App supports PyLauncher jobs.
+The DesignSafe [Python App](../../apps/python.md) (`python-s3`) supports PyLauncher jobs.
 
 ### How PyLauncher fits into a Tapis job
 

@@ -26,6 +26,7 @@
 | Application | Description | Execution | License |
 |---|---|---|---|
 | [Jupyter](https://jupyter.designsafe-ci.org/) | Notebooks with Python, R, and access to TACC HPC via dapi | JupyterHub | Open Source |
+| Python | General-purpose Python (or any executable) on Stampede3 with pre/post scripts | HPC | Open Source |
 | [MATLAB](https://www.mathworks.com/products/matlab.html) | Data analysis, algorithms, and modeling | VM | Licensed |
 | HVSRweb | Horizontal-to-vertical spectral ratio for seismic site analysis | Web App | Open Source |
 | SWbatch | Batch surface wave inversion using Geopsy/Dinver | Web App | Open Source |
@@ -74,7 +75,7 @@ When submitting jobs through [dapi](https://designsafe-ci.github.io/dapi/), the 
 | ADCIRC | `adcirc-s3` | Stampede3 | Yes | Storm surge modeling |
 | LS-DYNA | `ls-dyna-s3` | Stampede3 | Yes | Explicit dynamics |
 | MPM | `mpm-s3` | Stampede3 | Yes | Material point method |
-| Agnostic App | `designsafe-agnostic-app` | Stampede3 | Configurable | General-purpose (Python, Tcl, PyLauncher) |
+| Python | `python-s3` | Stampede3 | Configurable | General-purpose Python or any binary; pre/post scripts, PyLauncher |
 | OpenSeesPy | `openseespy-s3` | Stampede3 | No | Python-based OpenSees |
 
 App IDs may include version suffixes (e.g., `opensees-mp-s3-3.7.0`). When no version is specified, the latest version is used.
@@ -83,4 +84,4 @@ App IDs may include version suffixes (e.g., `opensees-mp-s3-3.7.0`). When no ver
 
 The full list of applications is maintained at [DesignSafe Tools & Applications](https://www.designsafe-ci.org/use-designsafe/tools-applications/). The [SimCenter](https://simcenter.designsafe-ci.org/) provides additional research and learning tools beyond those listed here.
 
-Detailed configuration guides exist for [OpenSees](opensees.md), [OpenFOAM](openfoam.md), [ADCIRC](adcirc.md), and the [Agnostic App](agnostic-app.md).
+Detailed configuration guides exist for [OpenSees](opensees.md), [OpenFOAM](openfoam.md), [ADCIRC](adcirc.md), and the [Python App](python.md).
